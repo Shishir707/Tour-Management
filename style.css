@@ -327,7 +327,7 @@ footer {
   padding: 30px 25px;
   border-radius: 12px;
   box-shadow: 0 1px 8px rgba(0,0,0,0.06);
-  text-align: center;
+  text-align: left;
 }
 
 /* Form styling */
@@ -560,3 +560,21 @@ input, select {
   box-shadow: 0 6px 16px rgba(29, 78, 216, 0.7);
   outline: none;
 }
+
+.table-wrapper {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+#participantTable {
+  width: 100%;
+  table-layout: auto;
+  border-collapse: separate;
+  border-spacing: 0 6px;
+}
+
+/* Optional: prevent body overflow too */
+body {
+  overflow-x: hidden;
+}
+
