@@ -9,27 +9,47 @@ function addParticipant() {
   const size = document.getElementById('size').value;
 
   if (!name || !boarding || !received || !payment || !size) {
-  Swal.fire('Error', 'Please fill all fields', 'error');
-  return;
- }
+    Swal.fire('Error', 'Please fill all fields', 'error');
+    return;
+  }
 
+  // Create participant object
+  const participant = { name, boarding, received, due, payment, size };
 
-  participants.push({ name, boarding, received, due, payment, size });
+  // Save to localStorage
+  let participants = JSON.parse(localStorage.getItem('participants')) || [];
+  participants.push(participant);
   localStorage.setItem('participants', JSON.stringify(participants));
 
+  // Add to table
+  const tableBody = document.querySelector("#participantTable tbody");
+  const row = document.createElement("tr");
+  row.innerHTML = `
+    <td>${participant.name}</td>
+    <td>${participant.boarding}</td>
+    <td>${participant.received}</td>
+    <td>${participant.due}</td>
+    <td>${participant.payment}</td>
+    <td>${participant.size}</td>
+  `;
+  tableBody.appendChild(row);
+
+  // ✅ Now update summary AFTER adding
+  renderSummary();
+
+  // Show success message
   Swal.fire('Success', 'Participant added successfully!', 'success');
 
-  // Clear inputs
+  // Reset form
   document.getElementById('name').value = '';
   document.getElementById('received').value = '';
   document.getElementById('due').value = '';
   document.getElementById('payment').value = '';
-  document.getElementById('size').selectedIndex = 0;
-  document.getElementById('boarding').selectedIndex = 0;
-
-  renderSummary();
-  renderTable(); // ⬅️ Add this to refresh table
+  document.getElementById('size').value = '';
+  document.getElementById('boarding').value = '';
 }
+
+
 
 document.getElementById("boarding").addEventListener("change", function () {
   const receivedInput = document.getElementById("received");
@@ -45,6 +65,8 @@ document.getElementById("boarding").addEventListener("change", function () {
 });
 
 function renderSummary() {
+  let participants = JSON.parse(localStorage.getItem('participants')) || [];
+
   const summary = {
     total: participants.length,
     received: 0,
@@ -69,29 +91,12 @@ function renderSummary() {
     <ul>${Object.entries(summary.sizes).map(([s, c]) => `<li>${s}: ${c}</li>`).join('')}</ul>
     <h4>Payments:</h4>
     <ul>${Object.entries(summary.payments).map(([m, c]) => `<li>${m}: ৳${c}</li>`).join('')}</ul>
-  <button id="clearBtn" class="clear-btn">Clear All Data</button>
-  <button id="saveImageBtn">Download Data</button>
-`;
+    <button id="clearBtn" class="clear-btn">Clear Data</button>
+    <button id="saveImageBtn" class="save-image-btn">Save Image</button>`;
+
   document.getElementById('summary').innerHTML = html;
 }
 
-function renderTable() {
-  const tbody = document.querySelector('#participantTable tbody');
-  tbody.innerHTML = ''; // Clear previous rows
-
-  participants.forEach(p => {
-    const row = document.createElement('tr');
-    row.innerHTML = `
-      <td>${p.name}</td>
-      <td>${p.boarding}</td>
-      <td>৳${p.received}</td>
-      <td>৳${p.due}</td>
-      <td>${p.payment}</td>
-      <td>${p.size}</td>
-    `;
-    tbody.appendChild(row);
-  });
-}
 
 // Initial rendering on load
 renderSummary();
@@ -175,3 +180,5 @@ document.getElementById('saveImageBtn').addEventListener('click', () => {
     console.error(err);
   });
 });
+
+
