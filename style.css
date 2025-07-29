@@ -403,7 +403,6 @@ input, select {
   background-color: #09d721; /* Deep Blue */
   color: #e0e7ff;           /* Light blue text */
   font-weight: 600;
-  text-transform: uppercase;
   letter-spacing: 0.06em;
   font-size: 0.9rem;
   border-radius: 5px;
