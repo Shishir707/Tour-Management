@@ -578,3 +578,106 @@ body {
   overflow-x: hidden;
 }
 
+.registration-options {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  margin: 30px 0;
+  flex-wrap: wrap;
+}
+
+.option-btn {
+  padding: 4px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  text-decoration: none;
+  color: white;
+  font-weight: 500;
+  box-shadow: 0 10px 10px rgba(30,30,30,10.1);
+  transition: background-color 0.3s ease, transform 0.2s;
+}
+
+.option-btn:hover {
+  transform: translateY(-5px);
+  color: #040404;
+  background-color: Red;
+}
+
+.tshirt-btn {
+  background-color: #20c790; /* Emerald */
+}
+
+.tour-btn {
+  background-color: #155ed3; /* Blue */
+}
+.see-event-btn {
+  display: block;
+  margin: 10px auto; /* Center horizontally and give spacing */
+  padding: 5px 24px;
+  background-color: #ae11d1;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  text-align: center;
+  width: 80%;
+}
+
+.see-event-btn:hover {
+  background-color: #0b5d8e;
+}
+
+
+.copy-btn {
+  margin-left: 10px;
+  background-color: #e2e8f0;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.3s ease;
+  position: relative;
+}
+
+.copy-btn:hover {
+  background-color: #cbd5e1;
+}
+
+.copy-btn::after {
+  content: "Copied!";
+  position: absolute;
+  top: -24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #4ade80;
+  color: black;
+  font-size: 12px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.copy-btn.copied::after {
+  opacity: 1;
+}
+
+img[alt="Registration"] {
+  display: block;
+  max-width: 55%;
+  height: auto;
+  margin: 20px auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(4, 0, 0, 2.1);
+  transition: transform 0.3s ease;
+}
+
+img[alt="Registration"]:hover {
+  transform: scale(1.03);
+}

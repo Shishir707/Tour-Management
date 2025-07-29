@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Registration</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>🌍Tour Management System</h1>
+    <p>Explore With us</p>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="Index.html">Home</a></li>
+      <li><a href="hostManage.html">Host Management</a></li>
+      <li><a href="reg.html">Registration Now</a></li>
+      <li><a href="#spending">Spending</a></li>
+    </ul>
+  </nav>
+  <br>
+
+    <section id="home">
+        <h1>Tour Registration</h1>
+        <p>Register now for the BRHL 500K Tour or grab only the exclusive BRHL T-shirt — your journey, your choice.</p>
+        <button id="sampleTshirtBtn" class="see-event-btn" onclick="showSampleNotice()">View Sample T-Shirt</button>
+    </section>
+    <img src="gallery/reg.png" alt="Registration">
+
+    <!-- Button Section -->
+    <h2>Register Now</h2>
+    <div class="registration-options">
+    <button onclick="showTshirtForm()" class="option-btn tshirt-btn">🎽 Only T-Shirt</button>
+    <a href="#" class="option-btn tour-btn">🌄 Participate Tour</a>
+    </div>
+    <hr>
+
+    <!-- Hidden Form Container -->
+    <div id="tshirtFormContainer" style="display: none; text-align: center;">
+    <h3>🎽 T-Shirt Order Form</h3>
+    <iframe 
+        src="https://docs.google.com/forms/d/e/1FAIpQLSd0iU8pkMKXhQZfyz3e8ycNdvy3mWKzih68OG6JFZ6M2mcwPQ/viewform?embedded=true" 
+        width="100%" 
+        height="2400" 
+        frameborder="0" 
+        marginheight="0" 
+        marginwidth="0"
+        style="border: none; max-width: 800px;">
+        Loading…
+    </iframe>
+    </div>
+
+
+   <footer>
+    <div class="footer-container">
+      <p>© 2025 Tour Management | All Rights Reserved</p>
+      <p>Developed by BRHL Team — <a href="tel:+8801611802209">Contact Us</a></p>
+    </div>
+  </footer>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="script.js"></script>
+</body>
+</html>

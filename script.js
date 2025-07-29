@@ -181,4 +181,20 @@ document.getElementById('saveImageBtn').addEventListener('click', () => {
   });
 });
 
-
+function showSampleNotice() {
+  Swal.fire({
+    icon: 'info',
+    title: 'Sample Not Ready Yet',
+    html: `<p>Stay Tuned</p><p><strong>BRHL Team</strong></p>`,
+    confirmButtonText: 'OK',
+    timer: 8000,
+    timerProgressBar: true,
+  });
+}
+function showTshirtForm() {
+  const formDiv = document.getElementById("tshirtFormContainer");
+  if (formDiv.style.display === "none") {
+    formDiv.style.display = "block";
+    formDiv.scrollIntoView({ behavior: "smooth" });
+  }
+}
