@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tour Management</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>🌍 ExploreWithUs - Tour Management System</h1>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="Index.html">Home</a></li>
+      <li><a href="hostManage.html">Host Management</a></li>
+      <li><a href="#registration">Registration</a></li>
+      <li><a href="#spending">Spending</a></li>
+    </ul>
+  </nav>
+  <br>
+
+  <section id="home">
+    <h1>Host Management</h1>
+   <p>Efficiently manage hosts, boarding points, payments, and more with ease.</p>
+  </section>
+  <div class="container">
+    <h2>Add Participant</h2>
+    <label for="name">Participant Name</label>
+    <input type="text" id="name" placeholder="Enter Participant name" />
+
+    <label for="boarding">Boarding Point</label>
+    <select id="boarding" required>
+      <option value="" disabled selected>Choose Boarding Point</option>
+      <option value="Chattogram">Chattogram</option>
+      <option value="Dhaka">Dhaka</option>
+    </select>
+
+    <label for="received">Money Received (Tk)</label>
+    <input type="number" id="received" placeholder="e.g. 3749" required/>
+
+    <label for="due">Due Money (Tk)</label>
+    <input type="number" id="due" placeholder="e.g. 100" />
+
+    <label for="payment">Payment Method</label>
+    <select id="payment" required>
+      <option value="" disabled selected>Choose Method</option>
+      <option value="Bkash">Bkash</option>
+      <option value="Nagad">Nagad</option>
+      <option value="Rocket">Rocket</option>
+      <option value="Cash">Cash</option>
+      <option value="Other">Other</option>
+    </select>
+
+    <label for="size">Chosse T-Shirt Size</label>
+    <label for="size">T-Shirt Size</label>
+    <select id="size" required>
+        <option value="" disabled selected>Choose Size</option>
+        <option value="S">S</option>
+        <option value="M">M</option>
+        <option value="L">L</option>
+        <option value="XL">XL</option>
+        <option value="XXL">XXL</option>
+        <option value="XXXL">XXXL</option>
+    </select>
+
+
+    <button id="btn" onclick="addParticipant()">Add Participant</button>
+  </div>
+  <div id="captureArea">
+  <h2>BRHL 500K Celebration</h2>
+    <table id="participantTable">
+    <thead>
+        <tr>
+        <th>Name</th>
+        <th>Boarding</th>
+        <th>Received (৳)</th>
+        <th>Due (৳)</th>
+        <th>Payment Method</th>
+        <th>Size</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+    </table>
+ </div>
+
+
+ <div class="summary" id="summary"></div>
+
+
+
+
+  <footer>
+    <div class="footer-container">
+      <p>© 2025 Tour Management | All Rights Reserved</p>
+      <p>Developed by BRHL Team — <a href="tel:+8801611802209">Contact Us</a></p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+</body>
+</html>
