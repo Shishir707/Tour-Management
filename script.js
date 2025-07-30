@@ -240,4 +240,65 @@ function showForm(type) {
 }
 
 
+const { jsPDF } = window.jspdf;
 
+async function downloadReceipt() {
+  const phone = document.getElementById("phoneInput").value.trim();
+
+  if (!phone) {
+    Swal.fire("Missing Phone Number", "Please enter your registered phone number.", "warning");
+    return;
+  }
+
+  const endpoint = `https://script.google.com/macros/s/AKfycbx5B7_TnaWCzKwLMeqW92H4EsLrCpJhwHke45qgw2m0RywXDvTyoPn_U7BHNl0q6j5eCw/exec?phone=${phone}`;
+
+  try {
+    const response = await fetch(endpoint);
+    const data = await response.json();
+
+    if (data.error) {
+      Swal.fire("Not Found", "No registration found with this number.", "error");
+      return;
+    }
+
+    const doc = new jsPDF();
+
+    doc.setFontSize(16);
+    doc.text("🎫 BRHL Tour Registration Receipt", 20, 20);
+
+    doc.setFontSize(12);
+    doc.text(`Name: ${data.name || "N/A"}`, 20, 40);
+    doc.text(`Phone: ${data.phone}`, 20, 48);
+    doc.text(`Boarding Point: ${data.boarding || "N/A"}`, 20, 56);
+    doc.text(`T-Shirt Size: ${data.tshirt || "N/A"}`, 20, 64);
+    doc.text(`Payment Method: ${data.payment || "N/A"}`, 20, 72);
+    doc.text(`Reference: ${data.reference || "N/A"}`, 20, 80);
+
+    if (data.additional_participants) {
+      doc.text(`Additional Participants:`, 20, 90);
+      doc.text(`${data.additional_participants}`, 20, 98);
+    }
+
+    if (data.comments) {
+      doc.text(`Comments:`, 20, 110);
+      doc.text(`${data.comments}`, 20, 118);
+    }
+
+    doc.text(`Registration Time: ${new Date(data.timestamp).toLocaleString()}`, 20, 130);
+
+    doc.save(`BRHL_Receipt_${data.phone}.pdf`);
+
+    Swal.fire("Success", "Receipt downloaded successfully!", "success");
+  } catch (error) {
+    console.error("Fetch error:", error);
+    Swal.fire("Error", "Something went wrong. Please try again later.", "error");
+  }
+}
+
+function showSampleNotice() {
+  Swal.fire({
+    title: "Sample T-Shirt",
+    text: "A preview of the T-shirt will be added here soon!",
+    icon: "info",
+  });
+}

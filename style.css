@@ -680,3 +680,39 @@ img[alt="Registration"] {
 img[alt="Registration"]:hover {
   transform: scale(1.03);
 }
+
+.receipt-container {
+  max-width: 72%;
+  margin: 0 auto;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 8px;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.receipt-container input {
+  flex: 1;
+  padding: 7px;
+  font-size: 15px;
+  border: 1px solid #999;
+  border-radius: 1px;
+}
+
+.receipt-container button {
+  padding: 4px 15px;
+  font-size: 13px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.receipt-container button:hover,
+.receipt-container button:active {
+  background-color: #510fed;
+  color: rgb(39, 202, 24);
+}
