@@ -682,7 +682,7 @@ img[alt="Registration"]:hover {
 }
 
 .receipt-container {
-  max-width: 72%;
+  max-width: 90%;
   margin: 0 auto;
   display: flex;
   gap: 10px;

@@ -240,65 +240,114 @@ function showForm(type) {
 }
 
 
-const { jsPDF } = window.jspdf;
-
 async function downloadReceipt() {
   const phone = document.getElementById("phoneInput").value.trim();
-
-  if (!phone) {
-    Swal.fire("Missing Phone Number", "Please enter your registered phone number.", "warning");
-    return;
-  }
-
-  const endpoint = `https://script.google.com/macros/s/AKfycbx5B7_TnaWCzKwLMeqW92H4EsLrCpJhwHke45qgw2m0RywXDvTyoPn_U7BHNl0q6j5eCw/exec?phone=${phone}`;
+ if (!phone) {
+  Swal.fire({
+    icon: 'warning',
+    title: 'Missing Number',
+    text: '⚠️ Please enter your phone number.',
+    timer: 3000, // 3 seconds
+    showConfirmButton: false
+  });
+  return;
+}
 
   try {
-    const response = await fetch(endpoint);
+    const response = await fetch(`https://script.google.com/macros/s/AKfycbxlR8Ts2kNxHdpkUbB40k2USX9JrvMBgqm3RBJ9bNPKYb4QsZ7mUYU3hxr1JPkz9Q-IoQ/exec?phone=${phone}`);
     const data = await response.json();
 
     if (data.error) {
-      Swal.fire("Not Found", "No registration found with this number.", "error");
+      alert("❌ No record found for this phone number.");
       return;
     }
 
-    const doc = new jsPDF();
-
-    doc.setFontSize(16);
-    doc.text("🎫 BRHL Tour Registration Receipt", 20, 20);
-
-    doc.setFontSize(12);
-    doc.text(`Name: ${data.name || "N/A"}`, 20, 40);
-    doc.text(`Phone: ${data.phone}`, 20, 48);
-    doc.text(`Boarding Point: ${data.boarding || "N/A"}`, 20, 56);
-    doc.text(`T-Shirt Size: ${data.tshirt || "N/A"}`, 20, 64);
-    doc.text(`Payment Method: ${data.payment || "N/A"}`, 20, 72);
-    doc.text(`Reference: ${data.reference || "N/A"}`, 20, 80);
-
-    if (data.additional_participants) {
-      doc.text(`Additional Participants:`, 20, 90);
-      doc.text(`${data.additional_participants}`, 20, 98);
-    }
-
-    if (data.comments) {
-      doc.text(`Comments:`, 20, 110);
-      doc.text(`${data.comments}`, 20, 118);
-    }
-
-    doc.text(`Registration Time: ${new Date(data.timestamp).toLocaleString()}`, 20, 130);
-
-    doc.save(`BRHL_Receipt_${data.phone}.pdf`);
-
-    Swal.fire("Success", "Receipt downloaded successfully!", "success");
-  } catch (error) {
-    console.error("Fetch error:", error);
-    Swal.fire("Error", "Something went wrong. Please try again later.", "error");
-  }
-}
-
-function showSampleNotice() {
   Swal.fire({
-    title: "Sample T-Shirt",
-    text: "A preview of the T-shirt will be added here soon!",
-    icon: "info",
+  icon: 'success',
+  title: 'Download Successful',
+  text: 'Your BRHL Tour Receipt has been downloaded.',
+  timer: 2000,
+  showConfirmButton: false
+}).then(() => {
+  // After the first Swal closes, show the welcome message
+  Swal.fire({
+    icon: 'info',
+    title: 'Welcome to BRHL!',
+    text: 'We are thrilled to have you on this journey. Safe travels!',
+    confirmButtonText: 'Thank You 💙'
   });
+});
+
+
+    const content = `
+      <html>
+      <head>
+        <title>BRHL Tour Receipt</title>
+        <style>
+          body {
+            font-family: Arial, sans-serif;
+            padding: 30px;
+            max-width: 600px;
+            margin: auto;
+            border: 2px dashed #555;
+          }
+          h1 {
+            text-align: center;
+            color: #2c3e50;
+          }
+          h3 {
+            text-align: center;
+            color: #444;
+          }
+          table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+          }
+          td {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+          }
+          .footer {
+            text-align: center;
+            font-size: 12px;
+            margin-top: 30px;
+            color: #777;
+          }
+        </style>
+      </head>
+      <body>
+        <h1>🎫 BRHL Tour Receipt</h1>
+        <h3>Bangladesh Railway Helpline</h3>
+        <table>
+          <tr><td><strong>Name:</strong></td><td>${data.name}</td></tr>
+          <tr><td><strong>Phone:</strong></td><td>${data.phone}</td></tr>
+          <tr><td><strong>Boarding:</strong></td><td>${data.boarding}</td></tr>
+          <tr><td><strong>T-Shirt Size:</strong></td><td>${data.tshirt}</td></tr>
+          <tr><td><strong>Payment:</strong></td><td>${data.payment}</td></tr>
+          <tr><td><strong>Reference:</strong></td><td>${data.reference}</td></tr>
+          <tr><td><strong>Comments:</strong></td><td>${data.comments || "N/A"}</td></tr>
+          <tr><td><strong>Timestamp:</strong></td><td>${new Date(data.timestamp).toLocaleString()}</td></tr>
+        </table><br><br>
+        <strong>🕕 Your train seat number will be available 6 hours before departure. Download your receipt to view it.</strong>
+        <div class="footer">This is a system-generated receipt from BRHL</div>
+      </body>
+      </html>
+    `;
+
+    // Create a Blob and trigger download
+    const blob = new Blob([content], { type: "text/html" });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `BRHL_Receipt_${data.phone}.html`;
+    a.click();
+
+    URL.revokeObjectURL(url); // Clean up
+
+  } catch (err) {
+    console.error("Error generating receipt:", err);
+    alert("⚠️ Something went wrong. Try again later.");
+  }
 }
