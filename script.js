@@ -92,7 +92,7 @@ function renderSummary() {
     <h4>Payments:</h4>
     <ul>${Object.entries(summary.payments).map(([m, c]) => `<li>${m}: ৳${c}</li>`).join('')}</ul>
     <button id="clearBtn" class="clear-btn">Clear Data</button>
-    <button id="saveImageBtn" class="save-image-btn">Save Image</button>`;
+    <button id="saveImageBtn" class="save-image-btn">Save Data</button>`;
 
   document.getElementById('summary').innerHTML = html;
 }
@@ -191,10 +191,53 @@ function showSampleNotice() {
     timerProgressBar: true,
   });
 }
-function showTshirtForm() {
-  const formDiv = document.getElementById("tshirtFormContainer");
-  if (formDiv.style.display === "none") {
-    formDiv.style.display = "block";
-    formDiv.scrollIntoView({ behavior: "smooth" });
+
+function copyToClipboard(btn, number) {
+  const localNumber = number.replace(/^(\+88)/, ''); // removes +88 if present
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(localNumber)
+      .then(() => {
+        btn.textContent = '✅ Copied!';
+        btn.disabled = true;
+        setTimeout(() => {
+          btn.textContent = '📋Copy';
+          btn.disabled = false;
+        }, 1500);
+      });
+  } else {
+    const textarea = document.createElement('textarea');
+    textarea.value = localNumber;
+    textarea.style.position = 'fixed';
+    textarea.style.left = '-9999px';
+    document.body.appendChild(textarea);
+    textarea.select();
+    try {
+      document.execCommand('copy');
+      btn.textContent = '✅ Copied!';
+      btn.disabled = true;
+      setTimeout(() => {
+        btn.textContent = '📋Copy';
+        btn.disabled = false;
+      }, 1500);
+    } finally {
+      document.body.removeChild(textarea);
+    }
   }
 }
+
+
+function showForm(type) {
+  const tshirt = document.getElementById('tshirtForm');
+  const tour = document.getElementById('tourForm');
+
+  if (type === 'tshirt') {
+    tshirt.style.display = 'block';
+    tour.style.display = 'none';
+  } else if (type === 'tour') {
+    tshirt.style.display = 'none';
+    tour.style.display = 'block';
+  }
+}
+
+
+

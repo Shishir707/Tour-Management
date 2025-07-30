@@ -4,11 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Registration</title>
+  <link rel="shortcut icon" href="gallery/brhlLogo.jpeg" type="BRHL Logo">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header>
-    <h1>🌍Tour Management System</h1>
+  <h1>
+    <img src="gallery/brhlLogo.jpeg" alt="BRHL Logo" style="height: 40px; vertical-align: middle; margin-right: 10px;">
+    Tour Management System
+    </h1>
     <p>Bangladesh Railway Helpline (BRHL)</p>
   </header>
 
@@ -30,27 +34,43 @@
     <img src="gallery/reg.png" alt="Registration">
 
     <!-- Button Section -->
-    <h2>Register Now</h2>
-    <div class="registration-options">
-    <button onclick="showTshirtForm()" class="option-btn tshirt-btn">🎽 Only T-Shirt</button>
-    <a href="#" class="option-btn tour-btn">🌄 Participate Tour</a>
-    </div>
-    <hr>
+<h2>Register Now</h2>
+<div class="registration-options">
+  <button onclick="showForm('tshirt')" class="option-btn tshirt-btn">🎽 Only T-Shirt</button>
+  <button onclick="showForm('tour')" class="option-btn tour-btn">🌄 Participate Tour</button>
+</div>
+<hr>
 
-    <!-- Hidden Form Container -->
-    <div id="tshirtFormContainer" style="display: none; text-align: center;">
+<!-- Embedded Forms -->
+<div id="formContainer" style="text-align: center;">
+  <div id="tshirtForm" style="display: none;">
     <h3>🎽 T-Shirt Order Form</h3>
     <iframe 
-        src="https://docs.google.com/forms/d/e/1FAIpQLSd0iU8pkMKXhQZfyz3e8ycNdvy3mWKzih68OG6JFZ6M2mcwPQ/viewform?embedded=true" 
-        width="100%" 
-        height="2400" 
-        frameborder="0" 
-        marginheight="0" 
-        marginwidth="0"
-        style="border: none; max-width: 800px;">
-        Loading…
+      src="https://docs.google.com/forms/d/e/1FAIpQLSd0iU8pkMKXhQZfyz3e8ycNdvy3mWKzih68OG6JFZ6M2mcwPQ/viewform?embedded=true" 
+      width="100%" 
+      height="1200" 
+      frameborder="0" 
+      marginheight="0" 
+      marginwidth="0"
+      style="border: none; max-width: 800px;">
+      Loading…
     </iframe>
-    </div>
+  </div>
+
+  <div id="tourForm" style="display: none;">
+    <h3>🌄 Tour Participation Form</h3>
+    <iframe 
+      src="https://docs.google.com/forms/d/e/1FAIpQLSfpDOqTc7DCiVIYS157cq2EsHuY-a7VXdgu5wHZzTYCOOm3Hw/viewform?embedded=true" 
+      width="100%" 
+      height="1200" 
+      frameborder="0" 
+      marginheight="0" 
+      marginwidth="0"
+      style="border: none; max-width: 800px;">
+      Loading…
+    </iframe>
+  </div>
+</div>
 
 
    <footer>
