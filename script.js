@@ -254,29 +254,43 @@ async function downloadReceipt() {
 }
 
   try {
-    const response = await fetch(`https://script.google.com/macros/s/AKfycbxlR8Ts2kNxHdpkUbB40k2USX9JrvMBgqm3RBJ9bNPKYb4QsZ7mUYU3hxr1JPkz9Q-IoQ/exec?phone=${phone}`);
-    const data = await response.json();
+  const response = await fetch(`https://script.google.com/macros/s/AKfycbzm9ChlRGiaogO78ABUAe2NgYcdg9AZ_7787xAKBN3VLt11JAv6xxCCEhidClW0d0BDAw/exec?phone=${phone}`);
+  const data = await response.json();
 
-    if (data.error) {
-      alert("❌ No record found for this phone number.");
-      return;
-    }
+  console.log(data);
 
-  Swal.fire({
-  icon: 'success',
-  title: 'Download Successful',
-  text: 'Your BRHL Tour Receipt has been downloaded.',
-  timer: 2000,
-  showConfirmButton: false
-}).then(() => {
-  // After the first Swal closes, show the welcome message
-  Swal.fire({
-    icon: 'info',
-    title: 'Welcome to BRHL!',
-    text: 'We are thrilled to have you on this journey. Safe travels!',
-    confirmButtonText: 'Thank You 💙'
-  });
-});
+  if (data.error) {
+    alert("❌ No record found for this phone number.");
+    return;
+  }
+
+  if (!data.verification) {
+    await Swal.fire({
+      icon: 'info',
+      title: 'Pending Verification',
+      text: 'Please wait for admin confirmation before proceeding.',
+      confirmButtonText: 'OK'
+    });
+    return; // Stop here if not verified
+  }
+
+    
+
+    Swal.fire({
+    icon: 'success',
+    title: 'Download Successful',
+    text: 'Your BRHL Tour Receipt has been downloaded.',
+    timer: 2000,
+    showConfirmButton: false
+    }).then(() => {
+    // After the first Swal closes, show the welcome message
+    Swal.fire({
+      icon: 'info',
+      title: 'Welcome to BRHL!',
+      text: 'We are thrilled to have you on this journey. Safe travels!',
+      confirmButtonText: 'Thank You 💙'
+    });
+    });
 
 
     const content = `
