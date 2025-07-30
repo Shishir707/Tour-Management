@@ -716,3 +716,6 @@ img[alt="Registration"]:hover {
   background-color: #510fed;
   color: rgb(39, 202, 24);
 }
+#note {
+  opacity: 0.1;
+}
