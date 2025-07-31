@@ -43,6 +43,6 @@ Tour hosts can easily manage and verify participants' information in a single in
 ## 📂 For Developers
 
 ```bash
-git clone https://github.com/your-username/tour-management.git
+git clone https://github.com/shishir707/tour-management.git
 cd tour-management
 open index.html (or use Live Server)
