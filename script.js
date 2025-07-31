@@ -242,181 +242,109 @@ function showForm(type) {
 
 async function downloadReceipt() {
   const phone = document.getElementById("phoneInput").value.trim();
- if (!phone) {
-  Swal.fire({
-    icon: 'warning',
-    title: 'Missing Number',
-    text: '⚠️ Please enter your phone number.',
-    timer: 3000, // 3 seconds
-    showConfirmButton: false
-  });
-  return;
-}
+  const text = document.getElementById("msg");
 
-  try {
-  const response = await fetch(`https://script.google.com/macros/s/AKfycbzm9ChlRGiaogO78ABUAe2NgYcdg9AZ_7787xAKBN3VLt11JAv6xxCCEhidClW0d0BDAw/exec?phone=${phone}`);
-  const data = await response.json();
-
-  console.log(data);
-
-  if (data.error) {
-    alert("❌ No record found for this phone number.");
+  if (!phone) {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Missing Number',
+      text: '⚠️ Please enter your phone number.',
+      timer: 3000,
+      showConfirmButton: false
+    });
     return;
   }
 
-  if (!data.verification) {
-    await Swal.fire({
-      icon: 'info',
-      title: 'Pending Verification',
-      text: 'Please wait for admin confirmation before proceeding.',
-      confirmButtonText: 'OK'
-    });
-    return; // Stop here if not verified
-  }
+  try {
+    text.textContent = "Please Wait....";
 
-    
+    const response = await fetch(`https://script.google.com/macros/s/AKfycbzm9ChlRGiaogO78ABUAe2NgYcdg9AZ_7787xAKBN3VLt11JAv6xxCCEhidClW0d0BDAw/exec?phone=${phone}`);
+    const data = await response.json();
 
-    Swal.fire({
-    icon: 'success',
-    title: 'Download Successful',
-    text: 'Your BRHL Tour Receipt has been downloaded.',
-    timer: 2000,
-    showConfirmButton: false
-    }).then(() => {
-    // After the first Swal closes, show the welcome message
-    Swal.fire({
-      icon: 'info',
-      title: 'Welcome to BRHL!',
-      text: 'We are thrilled to have you on this journey. Safe travels!',
-      confirmButtonText: 'Thank You 💙'
-    });
-    });
-
-
-    const content = `
-      <html>
-      <head>
-        <title>BRHL Tour Receipt</title>
-        <style>
-          body {
-            font-family: Arial, sans-serif;
-            padding: 30px;
-            max-width: 600px;
-            margin: auto;
-            border: 2px dashed #555;
-          }
-          h1 {
-            text-align: center;
-            color: #2c3e50;
-          }
-          h3 {
-            text-align: center;
-            color: #444;
-          }
-          table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-          }
-          td {
-            padding: 8px;
-            border-bottom: 1px solid #ddd;
-          }
-          .footer {
-            text-align: center;
-            font-size: 12px;
-            margin-top: 30px;
-            color: #777;
-          }
-        </style>
-      </head>
-      <body>
-        <h1>🎫 BRHL Tour Receipt</h1>
-        <h3>Bangladesh Railway Helpline</h3>
-        <table>
-          <tr><td><strong>Name:</strong></td><td>${data.name}</td></tr>
-          <tr><td><strong>Phone:</strong></td><td>${data.phone}</td></tr>
-          <tr><td><strong>Boarding:</strong></td><td>${data.boarding}</td></tr>
-          <tr><td><strong>T-Shirt Size:</strong></td><td>${data.tshirt}</td></tr>
-          <tr><td><strong>Payment:</strong></td><td>${data.payment}</td></tr>
-          <tr><td><strong>Reference:</strong></td><td>${data.reference}</td></tr>
-          <tr><td><strong>Comments:</strong></td><td>${data.comments || "N/A"}</td></tr>
-          <tr><td><strong>Timestamp:</strong></td><td>${new Date(data.timestamp).toLocaleString()}</td></tr>
-        </table><br><br>
-        <strong>🕕 Your train seat number will be available 6 hours before departure. Download your receipt to view it.</strong>
-        <div class="footer">This is a system-generated receipt from BRHL</div>
-      </body>
-      </html>
-    `;
-
-    // Create a Blob and trigger download
-    const blob = new Blob([content], { type: "text/html" });
-    const url = URL.createObjectURL(blob);
-
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `BRHL_Receipt_${data.phone}.html`;
-    a.click();
-
-    URL.revokeObjectURL(url); // Clean up
-
-  } catch (err) {
-    console.error("Error generating receipt:", err);
-    alert("⚠️ Something went wrong. Try again later.");
-  }
-}
-
-async function submitForm() {
-  const form = document.getElementById("registration-form");
-  const statusEl = document.getElementById("status");
-
-  // Validation (same as before)
-  const requiredFields = ["name", "phone", "location", "size", "payment", "reference"];
-  for (const fieldName of requiredFields) {
-    const field = form.querySelector(`[name="${fieldName}"]`);
-    if (!field.value.trim()) {
-      statusEl.textContent = "❌ অনুগ্রহ করে সব প্রয়োজনীয় তথ্য পূরণ করুন।";
-      field.focus();
+    if (data.error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'No Record Found',
+        text: '❌ No record found for this phone number.',
+        timer: 3000,
+        showConfirmButton: false
+      });
+      text.textContent = "";
       return;
     }
-  }
 
-  statusEl.textContent = "⏳ সাবমিট হচ্ছে...";
-
-  // Prepare URL encoded data
-  const data = {};
-  for (const element of form.elements) {
-    if (element.name) {
-      data[element.name] = element.value;
+    if (!data.verification) {
+      await Swal.fire({
+        icon: 'info',
+        title: 'Pending Verification',
+        text: 'Please wait for admin confirmation before proceeding.',
+        confirmButtonText: 'OK'
+      });
+      text.textContent = "";
+      return;
     }
-  }
-  const params = new URLSearchParams(data).toString();
 
-  try {
-    const response = await fetch("https://script.google.com/macros/s/AKfycbzwv6Uk7YjVqFpPGjzHZZILl3dgNCjs4DjPsf-o7lnu8-1lYUlXqQGs4zXE03ZgKGaHZw/exec", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: params,
-    });
-
-    if (response.ok) {
-      const text = await response.text();
-      if (text.trim() === "Success") {
-        statusEl.textContent = "✅ সফলভাবে সাবমিট হয়েছে!";
-        form.reset();
-      } else {
-        statusEl.textContent = "❌ সার্ভার থেকে সঠিক উত্তর আসেনি। পরে আবার চেষ্টা করুন।";
-      }
-    } else {
-      statusEl.textContent = `❌ সার্ভার সমস্যা: ${response.status}`;
+    // Create a container div for receipt (hidden or offscreen)
+    let container = document.getElementById("receipt-container");
+    if (!container) {
+      container = document.createElement("div");
+      container.id = "receipt-container";
+      container.style.position = "fixed";
+      container.style.left = "-9999px"; // Offscreen
+      container.style.top = "0";
+      container.style.width = "600px";
+      container.style.padding = "30px";
+      container.style.fontFamily = "Arial, sans-serif";
+      container.style.background = "#fff";
+      container.style.border = "2px dashed #555";
+      document.body.appendChild(container);
     }
-  } catch (error) {
-    console.error("Error:", error);
-    statusEl.textContent = "❌ জমা দিতে সমস্যা হচ্ছে। পরে আবার চেষ্টা করুন।";
+
+    container.innerHTML = `
+      <img src="gallery/brhlLogo.jpeg" alt="Logo" style="display: block; margin: 0 auto 15px auto; max-width: 50%; height: auto;" />
+      <h1 style="text-align: center; color: #2c3e50;">🎫 BRHL Tour Receipt</h1>
+      <h3 style="text-align: center; color: #444;">Bangladesh Railway Helpline</h3>
+      <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+        <tr><td style="padding: 8px; border-bottom: 1px solid #ddd;"><strong>Name:</strong></td><td style="padding: 8px; border-bottom: 1px solid #ddd;">${data.name}</td></tr>
+        <tr><td style="padding: 8px; border-bottom: 1px solid #ddd;"><strong>Contact No.:</strong></td><td style="padding: 8px; border-bottom: 1px solid #ddd;">${data.phone}</td></tr>
+        <tr><td style="padding: 8px; border-bottom: 1px solid #ddd;"><strong>Boarding Point:</strong></td><td style="padding: 8px; border-bottom: 1px solid #ddd;">${data.boarding}</td></tr>
+        <tr><td style="padding: 8px; border-bottom: 1px solid #ddd;"><strong>T-Shirt Size:</strong></td><td style="padding: 8px; border-bottom: 1px solid #ddd;">${data.tshirt}</td></tr>
+        <tr><td style="padding: 8px; border-bottom: 1px solid #ddd;"><strong>Payment Method:</strong></td><td style="padding: 8px; border-bottom: 1px solid #ddd;">${data.payment}</td></tr>
+        <tr><td style="padding: 8px; border-bottom: 1px solid #ddd;"><strong>Reference:</strong></td><td style="padding: 8px; border-bottom: 1px solid #ddd;">${data.reference}</td></tr>
+        <tr><td style="padding: 8px; border-bottom: 1px solid #ddd;"><strong>Comments:</strong></td><td style="padding: 8px; border-bottom: 1px solid #ddd;">${data.comments || "N/A"}</td></tr>
+        <tr><td style="padding: 8px; border-bottom: 1px solid #ddd;"><strong>Registration Time:</strong></td><td style="padding: 8px; border-bottom: 1px solid #ddd;">${new Date(data.timestamp).toLocaleString()}</td></tr>
+      </table>
+      <br>
+      <strong>🕕 Your train seat number will be available 6 hours before departure. Download your receipt to view it.</strong>
+      <div style="margin-top: 30px; font-size: 12px; color: #777; text-align: center;">This is a system-generated receipt from BRHL</div>
+    `;
+
+    // Use html2canvas to render to canvas
+    const canvas = await html2canvas(container, { scale: 2 });
+
+    // Convert canvas to image data URL
+    const imgData = canvas.toDataURL("image/png");
+
+    // Create a download link for image
+    const a = document.createElement("a");
+    a.href = imgData;
+    a.download = `BRHL_Receipt_${data.phone}.png`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+
+    text.textContent = "";
+
+    Swal.fire({
+      icon: 'success',
+      title: 'Welcome to BRHL Tour!',
+      text: 'Your BRHL Tour Receipt image has been downloaded.Safe travels!',
+      confirmButtonText: 'Thank You 💙'
+    })
+
+  } catch (err) {
+    console.error("Error generating receipt image:", err);
+    alert("⚠️ Something went wrong. Try again later.");
+    text.textContent = "";
   }
 }
-
-
-

@@ -71,59 +71,6 @@
     </iframe>
   </div>
 </div><br> <br>
-
-  <div id="registration-form" style="max-width: 500px; margin: auto; padding: 20px; border: 2px solid #ccc; border-radius: 10px; background-color: #f9f9f9;">
-  <h3 style="text-align: center;">🌄 Tour Participation Form</h3>
-
-  <label>আপনার নাম লিখুন:</label>
-  <input type="text" placeholder="Enter Your Name" name="name" required style="width: 100%; margin-bottom: 10px;" />
-
-  <label>আপনার ফোন নাম্বার:</label>
-  <input type="tel" placeholder="Enter Phone Number" name="phone" required style="width: 100%; margin-bottom: 10px;" />
-
-  <label>আপনি কোথায় থেকে যুক্ত হতে চান?</label>
-  <select name="location" required style="width: 100%; margin-bottom: 10px;">
-    <option value="" disabled selected>Choose Boarding Point</option>
-    <option value="ঢাকা">ঢাকা</option>
-    <option value="চট্টগ্রাম">চট্টগ্রাম</option>
-  </select>
-
-
-  <label>আপনার টি-শার্টের সাইজ বাছাই করুন:</label>
-  <select name="size" required style="width: 100%; margin-bottom: 10px;">
-    <option value="" disabled selected>Choose Size</option>
-    <option value="S">S</option>
-    <option value="M">M</option>
-    <option value="L">L</option>
-    <option value="XL">XL</option>
-    <option value="XXL">XXL</option>
-    <option value="XXXL">XXXL</option>
-  </select>
-
-  <label>পেমেন্ট মাধ্যম নির্বাচন করুন:</label>
-  <select name="payment" required style="width: 100%; margin-bottom: 10px;">
-    <option value="" disabled selected>Select Payment Method</option>
-    <option value="Bkash">Bkash</option>
-    <option value="Nagad">Nagad</option>
-    <option value="Rocket">Rocket</option>
-    <option value="Others">Cash</option>
-  </select>
-
-  <label>রেফারেন্স/শেষ ৪ সংখ্যা:</label>
-  <input type="text" name="reference" placeholder="Ref: Elias / Last 4 digit(2209)" required style="width: 100%; margin-bottom: 10px;" />
-
-  <label>অতিরিক্ত অংশগ্রহণকারী:(নাম + সম্পর্ক + সাইজ)</label>
-  <textarea name="extra" placeholder="Ashik + Brother + XL" style="width: 100%; margin-bottom: 10px;"></textarea>
-
-  <label>মন্তব্য/পরামর্শ:</label>
-  <textarea name="comment" placeholder="Your Suggestion or Problem" style="width: 100%; margin-bottom: 10px;"></textarea>
-
-  <button onclick="submitForm()" style="width: 100%; padding: 10px; background-color: #007BFF; color: white; border: none; border-radius: 5px;">Submit</button>
-
-  <p id="status" style="text-align: center; margin-top: 10px;"></p>
-</div>
-
-
   <h2>Download Your Recipt</h2>
   <p id="note" style="opacity: 0.5;">Receipt Only for Participant</p>
  <div class="receipt-container">
@@ -134,6 +81,7 @@
     />
     <button onclick="downloadReceipt()">📥 Download Receipt</button>
   </div>
+  <p id="msg"></p>
 
 
 
@@ -148,6 +96,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <script src="script.js"></script>
 </body>
 </html>
