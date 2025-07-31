@@ -303,9 +303,8 @@ async function downloadReceipt() {
     container.innerHTML = `
       <img src="gallery/brhlLogo.jpeg" alt="Logo" style="display: block; margin: 0 auto 15px auto; max-width: 50%; height: auto;" />
       <h1 style="text-align: center; color: #2c3e50;">🎫 BRHL Tour Receipt</h1>
-      <h3 style="text-align: center; color: #444;">Bangladesh Railway Helpline</h3>
       <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
-        <tr><td style="padding: 8px; border-bottom: 1px solid #ddd;"><strong>Name:</strong></td><td style="padding: 8px; border-bottom: 1px solid #ddd;">${data.name}</td></tr>
+        <tr><td style="padding: 8px; border-bottom: 1px solid #ddd;"><strong>Name of Participant:</strong></td><td style="padding: 8px; border-bottom: 1px solid #ddd;">${data.name}</td></tr>
         <tr><td style="padding: 8px; border-bottom: 1px solid #ddd;"><strong>Contact No.:</strong></td><td style="padding: 8px; border-bottom: 1px solid #ddd;">${data.phone}</td></tr>
         <tr><td style="padding: 8px; border-bottom: 1px solid #ddd;"><strong>Boarding Point:</strong></td><td style="padding: 8px; border-bottom: 1px solid #ddd;">${data.boarding}</td></tr>
         <tr><td style="padding: 8px; border-bottom: 1px solid #ddd;"><strong>T-Shirt Size:</strong></td><td style="padding: 8px; border-bottom: 1px solid #ddd;">${data.tshirt}</td></tr>
