@@ -365,3 +365,58 @@ async function downloadReceipt() {
     alert("⚠️ Something went wrong. Try again later.");
   }
 }
+
+async function submitForm() {
+  const form = document.getElementById("registration-form");
+  const statusEl = document.getElementById("status");
+
+  // Validation (same as before)
+  const requiredFields = ["name", "phone", "location", "size", "payment", "reference"];
+  for (const fieldName of requiredFields) {
+    const field = form.querySelector(`[name="${fieldName}"]`);
+    if (!field.value.trim()) {
+      statusEl.textContent = "❌ অনুগ্রহ করে সব প্রয়োজনীয় তথ্য পূরণ করুন।";
+      field.focus();
+      return;
+    }
+  }
+
+  statusEl.textContent = "⏳ সাবমিট হচ্ছে...";
+
+  // Prepare URL encoded data
+  const data = {};
+  for (const element of form.elements) {
+    if (element.name) {
+      data[element.name] = element.value;
+    }
+  }
+  const params = new URLSearchParams(data).toString();
+
+  try {
+    const response = await fetch("https://script.google.com/macros/s/AKfycbzwv6Uk7YjVqFpPGjzHZZILl3dgNCjs4DjPsf-o7lnu8-1lYUlXqQGs4zXE03ZgKGaHZw/exec", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: params,
+    });
+
+    if (response.ok) {
+      const text = await response.text();
+      if (text.trim() === "Success") {
+        statusEl.textContent = "✅ সফলভাবে সাবমিট হয়েছে!";
+        form.reset();
+      } else {
+        statusEl.textContent = "❌ সার্ভার থেকে সঠিক উত্তর আসেনি। পরে আবার চেষ্টা করুন।";
+      }
+    } else {
+      statusEl.textContent = `❌ সার্ভার সমস্যা: ${response.status}`;
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    statusEl.textContent = "❌ জমা দিতে সমস্যা হচ্ছে। পরে আবার চেষ্টা করুন।";
+  }
+}
+
+
+
