@@ -30,70 +30,35 @@
     <h1>Host Management</h1>
     <p>Efficiently manage hosts, boarding points, payments, and more with ease.</p>
   </section>
-
-  <div class="container">
-    <h2>Add Participant</h2>
-
-    <label for="name">Participant Name</label>
-    <input type="text" id="name" placeholder="Enter Participant name" />
-
-    <label for="boarding">Boarding Point</label>
-    <select id="boarding" required>
-      <option value="" disabled selected>Choose Boarding Point</option>
-      <option value="Chattogram">Chattogram</option>
-      <option value="Dhaka">Dhaka</option>
-    </select>
-
-    <label for="received">Money Received (Tk)</label>
-    <input type="number" id="received" placeholder="e.g. 3749" required/>
-
-    <label for="due">Due Money (Tk)</label>
-    <input type="number" id="due" placeholder="e.g. 100" />
-
-    <label for="payment">Payment Method</label>
-    <select id="payment" required>
-      <option value="" disabled selected>Choose Method</option>
-      <option value="Bkash">Bkash</option>
-      <option value="Nagad">Nagad</option>
-      <option value="Rocket">Rocket</option>
-      <option value="Cash">Cash</option>
-      <option value="Other">Other</option>
-    </select>
-
-    <label for="size">Choose T-Shirt Size</label>
-    <select id="size" required>
-      <option value="" disabled selected>Choose Size</option>
-      <option value="S">S</option>
-      <option value="M">M</option>
-      <option value="L">L</option>
-      <option value="XL">XL</option>
-      <option value="XXL">XXL</option>
-      <option value="XXXL">XXXL</option>
-    </select>
-
-    <button id="btn" onclick="addParticipant()">Add Participant</button>
-  </div>
-
   <div id="captureArea">
     <h2 class="hidden-in-ui" id="imageTitle">BRHL 500K Celebration</h2>
-    <div class="table-wrapper">
-    <table id="participantTable">
+    <h2>All Participants Information</h2>
+  <p id="loadingMessage">Loading data, please wait...</p>
+  <p id="noDataMessage" style="display:none;">No data found.</p>
+
+  <div class="table-wrapper">
+    <table id="participantTable" style="display:none;">
       <thead>
         <tr>
           <th>Name</th>
-          <th>Boarding Point</th>
-          <th>Received</th>
+          <th>Phone</th>
+          <th>Boarding</th>
+          <th>Size</th>
+          <th>Paid</th>
           <th>Due</th>
-          <th>Payment Method</th>
-          <th>T-Size</th>
+          <th>Payment</th>
+          <th>Ref</th>
+          <th>Collector</th>
+          <th>Comment</th>
+          <th>Reg. Time</th>
+          <th>Status</th>
+          <th>Action</th>
         </tr>
       </thead>
-      <tbody></tbody>
+      <tbody id="participantBody"></tbody>
     </table>
-    </div>
-  
+  </div>
 
-  <div class="summary" id="summary"></div>
   </div>
 
   <footer>
@@ -110,7 +75,9 @@
   </script>
 
   <script src="script.js"></script>
+  <script type="module" src="display.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 </body>
 </html>

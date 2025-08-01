@@ -2,108 +2,52 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Registration</title>
-  <link rel="shortcut icon" href="gallery/brhlLogo.jpeg" type="BRHL Logo">
-  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Extra T-Shirt Order</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 500px;
+      margin: 20px auto;
+      padding: 15px;
+      background: #f5f5f5;
+      border-radius: 8px;
+    }
+    label {
+      display: block;
+      margin-top: 12px;
+      font-weight: bold;
+    }
+    input, select, textarea, button {
+      width: 100%;
+      padding: 8px;
+      margin-top: 6px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      font-size: 16px;
+    }
+    button {
+      margin-top: 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    #submitMsg2 {
+      margin-top: 12px;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
-  <header>
-  <h1>
-    <img src="gallery/brhlLogo.jpeg" alt="BRHL Logo" style="height: 40px; vertical-align: middle; margin-right: 10px;">
-    Tour Management System
-    </h1>
-    <p>Bangladesh Railway Helpline (BRHL)</p>
-  </header>
 
-  <nav>
-    <ul>
-      <li><a href="Index.html">Home</a></li>
-      <li><a href="reg.html">Registration Now</a></li>
-      <li><a href="hostManage.html">Host Management</a></li>
-      <li><a href="maintain.html">Pocket Report</a></li>
-    </ul>
-  </nav>
-  <br>
-
-    <section id="home">
-        <h1>Tour Registration</h1>
-        <p>Register now for the BRHL 500K Tour or grab only the exclusive BRHL T-shirt — your journey, your choice.</p>
-        <button id="sampleTshirtBtn" class="see-event-btn" onclick="showSampleNotice()">View Sample T-Shirt</button>
-    </section>
-    <img src="gallery/reg.png" alt="Registration">
-
-    <!-- Button Section -->
-<h2>Register Now</h2>
-<div class="registration-options">
-  <button onclick="showForm('tshirt')" class="option-btn tshirt-btn">🎽 Only T-Shirt</button>
-  <button onclick="showForm('tour')" class="option-btn tour-btn">🌄 Participate Tour</button>
-</div>
-<hr>
-
-
-  <div id="registrationForm">
-    <h3>🌄 Tour Participation Form</h3>
-
-    <label>Name:</label>
-    <input type="text" placeholder="Enter Your Name" id="name" required>
-
-    <label>Phone Number:</label>
-    <input type="tel" placeholder="Enter Phone Number" id="phone" required>
-
-    <label>Boarding Point:</label>
-    <select id="boarding">
-      <option value="">Selec Boarding Point</option>
-      <option value="Dhaka">Dhaka</option>
-      <option value="Chattogram">Chattogram</option>
-    </select>
-
-    <label>Total Amount (Tk):</label>
-    <input type="number" id="totalAmount" value="0" readonly>
-
-    <label>Due Amount (Tk):</label>
-    <input type="number" id="dueAmount" value="0">
-
-    <label>Total Paid (Tk):</label>
-    <input type="number" id="finalAmount" value="0" readonly>
-
-    <label>T-Shirt Size:</label>
-    <select id="tshirtSize">
-      <option value="">Select Size</option>
-      <option value="S">S</option>
-      <option value="M">M</option>
-      <option value="L">L</option>
-      <option value="XL">XL</option>
-      <option value="XXL">XXL</option>
-      <option value="XXXL">XXXL</option>
-    </select>
-
-    <label>Payment Method:</label>
-    <select id="paymentMethod">
-      <option value="">Select Payment Method</option>
-      <option value="Bkash">Bkash</option>
-      <option value="Rocket">Rocket</option>
-      <option value="Nagad">Nagad</option>
-      <option value="Cash">Cash</option>
-    </select>
-
-    <label>Enter Reference:</label>
-    <input type="text" placeholder="Ref:Karim / Last 4 digit:2209" id="ref" required>
-
-    <label>Fund Collector:</label>
-    <input type="text" placeholder="Enter fund collector name" id="collector" required>
-
-    <label>Comment or Suggestion:</label>
-    <textarea id="comment" rows="3"></textarea>
-
-    <button onclick="submitForm()">Submit</button>
-
-    <p id="submitMsg"></p>
-  </div>
-
-  <div id="tshirt">
+  <h2>🎽 Extra T-Shirt Order Form</h2>
   <form id="extraTshirtForm">
-    <h2>🎽 T-Shirt Order Form</h2>
     <label for="name2">Name:</label>
     <input type="text" id="name2" required placeholder="Enter Name" />
 
@@ -141,7 +85,7 @@
 
     <hr />
 
-    <h3 style="color: red; opacity: 0.5;">Extra T-Shirt Information (optional)</h3>
+    <h3>Extra T-Shirt Information (optional)</h3>
 
     <label for="extraT1">Extra T-shirt 1 Size:</label>
     <select id="extraT1">
@@ -193,7 +137,6 @@
     <button type="submit">Submit</button>
     <p id="submitMsg2"></p>
   </form>
-  </div>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
@@ -219,7 +162,7 @@
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       submitMsg2.textContent = "Submitting...";
-      submitMsg2.style.color = 'green';
+      submitMsg2.style.color = 'black';
 
       // Get values
       const name = document.getElementById('name2').value.trim();
@@ -256,14 +199,8 @@
 
       try {
         await push(ref(db, 'extraTshirtOrders'), formData);
-        submitMsg2.textContent = "";
-        Swal.fire({
-          icon: 'success',
-          title: '✅ Order Confirmed!',
-          html: '<p style="font-weight:bold; margin-top:10px;">Thank you for your order with BRHL. We’ll contact you later.</p>',
-          showConfirmButton: false,
-          timer: 3000
-        });
+        submitMsg2.style.color = "green";
+        submitMsg2.textContent = "✅ Submission successful!";
 
         form.reset();
       } catch (error) {
@@ -273,40 +210,5 @@
       }
     });
   </script>
-
-
-
-
-
-  <br>
-  <h2>Download Your Recipt</h2>
-  <p id="note" style="opacity: 0.5;">Receipt Only for Participant</p>
-  <div class="receipt-container">
-    <input 
-      type="text" 
-      id="phoneInput" 
-      placeholder="Enter your registered phone number" 
-    />
-    <button onclick="downloadReceipt()">📥 Download Receipt</button>
-  </div>
-  <p id="msg"></p>
-
-
-
-   <footer>
-    <div class="footer-container">
-      <p>© 2025 BRHL | All Rights Reserved</p>
-      <p>Developed by BRHL Team — <a href="tel:+8801611802209">Contact Us</a></p>
-    </div>
-  </footer>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-<script src="script.js"></script>
-<script type="module" src="app.js"></script>
-<script type="module" src="tshirt.js"></script>
 </body>
 </html>
