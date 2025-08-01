@@ -20,7 +20,7 @@ function showForm(type) {
    window.onload = async function () {
     // Check if current page is hostmanage.html
     const currentPage = window.location.pathname.split('/').pop();
-    if (currentPage === 'hostManage.html') {
+    if (currentPage === 'https://managetour.netlify.app/hostmanage') {
       const { value: password } = await Swal.fire({
         title: 'Admin Access Required',
         input: 'password',
