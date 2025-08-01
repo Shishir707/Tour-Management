@@ -4,17 +4,16 @@ window.addEventListener('DOMContentLoaded', () => {
   document.getElementById("tshirt").style.display = "none";
 });
 
-// Function to show one and hide the other
 function showForm(type) {
-  const regForm = document.getElementById("registrationForm");
-  const tshirtForm = document.getElementById("tshirt");
+  const participantDiv = document.getElementById("registrationForm");
+  const orderDiv = document.getElementById("tshirt");
 
-  if (type === "tour") {
-    regForm.style.display = "block";
-    tshirtForm.style.display = "none";
-  } else if (type === "tshirt") {
-    regForm.style.display = "none";
-    tshirtForm.style.display = "block";
+  if (type === "tshirt") {
+    participantDiv.style.display = "none";
+    orderDiv.style.display = "block";
+  } else if (type === "tour") {
+    orderDiv.style.display = "none";
+    participantDiv.style.display = "block";
   }
 }
 
@@ -130,6 +129,34 @@ async function downloadReceipt() {
 }
 
 
-function submitBtn(){
-    alert("Button Clicked");
+const boardingEl = document.getElementById("boarding");
+const totalAmountEl = document.getElementById("totalAmount");
+const dueAmountEl = document.getElementById("dueAmount");
+const finalAmountEl = document.getElementById("finalAmount");
+
+boardingEl.addEventListener("change", () => {
+  const value = boardingEl.value;
+  if (value === "Dhaka") totalAmountEl.value = "3749";
+  else if (value === "Chattogram") totalAmountEl.value = "2899";
+  else totalAmountEl.value = "";
+  calculatePaidAmount();
+});
+
+dueAmountEl.addEventListener("input", calculatePaidAmount);
+
+function calculatePaidAmount() {
+  const total = parseInt(totalAmountEl.value) || 0;
+  const due = parseInt(dueAmountEl.value) || 0;
+  const paid = total - due;
+  finalAmountEl.value = paid >= 0 ? paid : 0;
+}
+
+function participant() {
+  document.getElementById("participant").style.display = "block";
+  document.getElementById("order").style.display = "none";
+}
+
+function order() {
+  document.getElementById("order").style.display = "block";
+  document.getElementById("participant").style.display = "none";
 }

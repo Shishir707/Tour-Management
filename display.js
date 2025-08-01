@@ -84,8 +84,3 @@ window.confirmParticipant = async function(id) {
   
 // Run on page load
 fetchParticipants();
-
-
-function submitBtn(){
-    alert("Button Clicked");
-}

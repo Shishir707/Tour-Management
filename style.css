@@ -890,3 +890,15 @@ h3{
   color: white;
   opacity: 0.5;
 }
+
+.read{
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #2b9348;
+  background-color: #f1fdf3;
+  padding: 8px 16px;
+  border-radius: 8px;
+  display: inline-block;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
