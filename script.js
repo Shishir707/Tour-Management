@@ -17,44 +17,47 @@ function showForm(type) {
   }
 }
 
-   window.onload = async function () {
-    // Check if current page is hostmanage.html
-    const currentPage = window.location.pathname.split('/').pop();
-    if (currentPage === 'https://managetour.netlify.app/hostmanage') {
-      const { value: password } = await Swal.fire({
-        title: 'Admin Access Required',
-        input: 'password',
-        inputLabel: 'Enter the password',
-        inputPlaceholder: 'Password',
-        inputAttributes: {
-          maxlength: 20,
-          autocapitalize: 'off',
-          autocorrect: 'off'
-        },
-        backdrop: 'rgba(0, 0, 0, 1)', // Fully black background
-        background: '#111',           // Dark popup background
-        color: '#fff',                // Light text
-        allowOutsideClick: false,
-        showCancelButton: false,
-        confirmButtonText: 'Enter'
-      });
+  window.onload = async function () {
+  // Get the last part of the path
+  const currentPage = window.location.pathname.split('/').pop();
 
-      if (password !== 'brhl500') {
-        await Swal.fire({
-          icon: 'error',
-          title: 'Access Denied',
-          text: 'Incorrect password. Reloading...',
-          backdrop: 'rgba(0, 0, 0, 1)',
-          background: '#111',
-          color: '#fff',
-          allowOutsideClick: false,
-          showConfirmButton: false,
-          timer: 2000
-        });
-        location.href = 'index.html';
-      }
+  // Use only 'hostmanage' as the match string
+  if (currentPage === 'hostmanage') {
+    const { value: password } = await Swal.fire({
+      title: 'Admin Access Required',
+      input: 'password',
+      inputLabel: 'Enter the password',
+      inputPlaceholder: 'Password',
+      inputAttributes: {
+        maxlength: 20,
+        autocapitalize: 'off',
+        autocorrect: 'off'
+      },
+      backdrop: 'rgba(0, 0, 0, 1)',
+      background: '#111',
+      color: '#fff',
+      allowOutsideClick: false,
+      showCancelButton: false,
+      confirmButtonText: 'Enter'
+    });
+
+    if (password !== 'brhl500') {
+      await Swal.fire({
+        icon: 'error',
+        title: 'Access Denied',
+        text: 'Incorrect password. Redirecting...',
+        backdrop: 'rgba(0, 0, 0, 1)',
+        background: '#111',
+        color: '#fff',
+        allowOutsideClick: false,
+        showConfirmButton: false,
+        timer: 2000
+      });
+      location.href = 'index.html';
     }
-  };
+  }
+};
+
 
 
   function showSampleNotice() {
