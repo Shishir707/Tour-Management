@@ -18,10 +18,8 @@ function showForm(type) {
 }
 
   window.onload = async function () {
-  // Get the last part of the path
   const currentPage = window.location.pathname.split('/').pop();
 
-  // Use only 'hostmanage' as the match string
   if (currentPage === 'hostmanage') {
     const { value: password } = await Swal.fire({
       title: 'Admin Access Required',
@@ -54,7 +52,13 @@ function showForm(type) {
         timer: 2000
       });
       location.href = 'index.html';
+    } else {
+      // ✅ Show the protected content
+      document.getElementById('protectedContent').style.display = 'block';
     }
+  } else {
+    // Not the hostmanage page, show everything normally
+    document.getElementById('protectedContent').style.display = 'block';
   }
 };
 
