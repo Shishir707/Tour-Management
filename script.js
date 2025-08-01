@@ -17,10 +17,62 @@ function showForm(type) {
   }
 }
 
+   window.onload = async function () {
+    // Check if current page is hostmanage.html
+    const currentPage = window.location.pathname.split('/').pop();
+    if (currentPage === 'hostManage.html') {
+      const { value: password } = await Swal.fire({
+        title: 'Admin Access Required',
+        input: 'password',
+        inputLabel: 'Enter the password',
+        inputPlaceholder: 'Password',
+        inputAttributes: {
+          maxlength: 20,
+          autocapitalize: 'off',
+          autocorrect: 'off'
+        },
+        backdrop: 'rgba(0, 0, 0, 1)', // Fully black background
+        background: '#111',           // Dark popup background
+        color: '#fff',                // Light text
+        allowOutsideClick: false,
+        showCancelButton: false,
+        confirmButtonText: 'Enter'
+      });
+
+      if (password !== 'brhl500') {
+        await Swal.fire({
+          icon: 'error',
+          title: 'Access Denied',
+          text: 'Incorrect password. Reloading...',
+          backdrop: 'rgba(0, 0, 0, 1)',
+          background: '#111',
+          color: '#fff',
+          allowOutsideClick: false,
+          showConfirmButton: false,
+          timer: 2000
+        });
+        location.href = 'index.html';
+      }
+    }
+  };
+
+
+  function showSampleNotice() {
+    Swal.fire({
+      title: '📢 Sample Not Ready Yet',
+      text: 'Will be published soon.\nStay tuned - BRHL Team',
+      icon: 'info',
+      confirmButtonText: 'Thank You',
+      backdrop: 'rgba(0, 0, 0, 0.9)',
+      background: '#111',
+      color: '#fff'
+    });
+  }
 
 
 
-async function downloadReceipt() {
+
+async function downloadReceip() {
   const phone = document.getElementById("phoneInput").value.trim();
   const text = document.getElementById("msg");
 
@@ -160,3 +212,6 @@ function order() {
   document.getElementById("order").style.display = "block";
   document.getElementById("participant").style.display = "none";
 }
+
+
+

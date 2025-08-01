@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BRHL Tour</title>
+  <link rel="shortcut icon" href="gallery/brhlLogo.jpeg" type="BRHL Logo">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+  <h1>
+    <img src="gallery/brhlLogo.jpeg" alt="BRHL Logo" style="height: 40px; vertical-align: middle; margin-right: 10px;">
+    Tour Management System
+    </h1>
+    <p>Bangladesh Railway Helpline (BRHL)</p>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="Index.html">Home</a></li>
+      <li><a href="reg.html">Registration Now</a></li>
+      <li><a href="download.html">Download Recipt</a></li>
+      <li><a href="hostManage.html">Admin</a></li>
+    </ul>
+  </nav>
+
+  <section id="home">
+  <h1>Welcome, Dear Participant!</h1>
+  <p>You can download your BRHL registration receipt by entering your registered phone number below.</p>
+    </section>
+
+  
+  <br>
+  <h2>Download Your Recipt</h2>
+  <p id="note" style="opacity: 0.5;">Receipt Only for Participant</p>
+  <div class="receipt-container">
+    <input 
+      type="text" 
+      id="phoneInput" 
+      placeholder="Enter your registered phone number" 
+    />
+    <button onclick="downloadReceipt()">📥 Download Receipt</button>
+  </div>
+  <p id="msg"></p>
+
+
+   <style>
+  .receipt-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 20px;
+    max-width: 400px;
+    margin: auto;
+    background-color: #f7f7f7;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+
+  #phoneInput {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+  }
+
+  button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #008cff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  button:hover {
+    background-color: #005bbb;
+  }
+
+  h2 {
+    text-align: center;
+    margin-bottom: 5px;
+  }
+
+  #note {
+    text-align: center;
+    font-size: 14px;
+    color: #888;
+  }
+
+  #msg {
+    text-align: center;
+    margin-top: 10px;
+    font-weight: bold;
+  }
+</style>
+
+
+
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+  import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCHEWExCVcYm5ZTQlRToVPD6mzFkuuOHsY",
+    authDomain: "participate-322ac.firebaseapp.com",
+    databaseURL: "https://participate-322ac-default-rtdb.firebaseio.com",
+    projectId: "participate-322ac",
+    storageBucket: "participate-322ac.appspot.com",
+    messagingSenderId: "1086204135947",
+    appId: "1:1086204135947:web:9d2a1bdc26d9efc2ced50e",
+    measurementId: "G-CBSQZBPHVH"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+
+  window.downloadReceipt = async function () {
+    const phone = document.getElementById("phoneInput").value.trim();
+    const msg = document.getElementById("msg");
+
+    if (!phone) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Missing Number',
+        text: '⚠️ Please enter your phone number.',
+        timer: 3000,
+        showConfirmButton: false
+      });
+      return;
+    }
+
+    msg.textContent = "Please wait...";
+
+    const regRef = ref(db, "registrations");
+
+    onValue(regRef, async (snapshot) => {
+      const allData = snapshot.val();
+      let match = null;
+
+      for (const key in allData) {
+        if (allData[key].phone === phone) {
+          match = allData[key];
+          break;
+        }
+      }
+
+      if (!match) {
+        Swal.fire({
+          icon: 'error',
+          title: 'No Record Found',
+          text: '❌ No record found for this phone number.',
+          timer: 3000,
+          showConfirmButton: false
+        });
+        msg.textContent = "";
+        return;
+      }
+
+      if (match.status !== "Confirmed") {
+        await Swal.fire({
+          icon: 'info',
+          title: 'Pending Verification',
+          text: 'Please wait for admin confirmation before proceeding.',
+          confirmButtonText: 'OK'
+        });
+        msg.textContent = "";
+        return;
+      }
+
+      // Create hidden receipt container
+      let container = document.getElementById("receipt-container");
+      if (!container) {
+        container = document.createElement("div");
+        container.id = "receipt-container";
+        container.style.position = "fixed";
+        container.style.left = "-9999px";
+        container.style.top = "0";
+        container.style.width = "600px";
+        container.style.padding = "30px";
+        container.style.fontFamily = "Arial, sans-serif";
+        container.style.background = "#fff";
+        container.style.border = "2px dashed #555";
+        document.body.appendChild(container);
+      }
+
+      container.innerHTML = `
+        <img src="gallery/brhlLogo.jpeg" alt="Logo" style="display: block; margin: 0 auto 15px auto; max-width: 50%; height: auto;" />
+        <h1 style="text-align: center; color: #2c3e50;">🎫 BRHL Tour Receipt</h1>
+        <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+          <tr><td style="padding: 8px; border-bottom: 1px solid #ddd;"><strong>Name of Participant:</strong></td><td style="padding: 8px; border-bottom: 1px solid #ddd;">${match.name}</td></tr>
+          <tr><td style="padding: 8px; border-bottom: 1px solid #ddd;"><strong>Contact No.:</strong></td><td style="padding: 8px; border-bottom: 1px solid #ddd;">${match.phone}</td></tr>
+          <tr><td style="padding: 8px; border-bottom: 1px solid #ddd;"><strong>Boarding Point:</strong></td><td style="padding: 8px; border-bottom: 1px solid #ddd;">${match.boarding}</td></tr>
+          <tr><td style="padding: 8px; border-bottom: 1px solid #ddd;"><strong>T-Shirt Size:</strong></td><td style="padding: 8px; border-bottom: 1px solid #ddd;">${match.tshirtSize}</td></tr>
+          <tr><td style="padding: 8px; border-bottom: 1px solid #ddd;"><strong>Payment Method:</strong></td><td style="padding: 8px; border-bottom: 1px solid #ddd;">${match.paymentMethod}</td></tr>
+          <tr><td style="padding: 8px; border-bottom: 1px solid #ddd;"><strong>Reference:</strong></td><td style="padding: 8px; border-bottom: 1px solid #ddd;">${match.reference}</td></tr>
+          <tr><td style="padding: 8px; border-bottom: 1px solid #ddd;"><strong>Comments:</strong></td><td style="padding: 8px; border-bottom: 1px solid #ddd;">${match.comment || "N/A"}</td></tr>
+          <tr><td style="padding: 8px; border-bottom: 1px solid #ddd;"><strong>Registration Time:</strong></td><td style="padding: 8px; border-bottom: 1px solid #ddd;">${match.timestamp ? new Date(match.timestamp).toLocaleString() : "N/A"}</td></tr>
+        </table>
+        <br>
+        <strong>🕕 Your train seat number will be available 6 hours before departure. Download your receipt to view it.</strong>
+        <div style="margin-top: 30px; font-size: 12px; color: #777; text-align: center;">This is a system-generated receipt from BRHL</div>
+      `;
+
+      const canvas = await html2canvas(container, { scale: 2 });
+      const imgData = canvas.toDataURL("image/png");
+
+      const a = document.createElement("a");
+      a.href = imgData;
+      a.download = `BRHL_Receipt_${match.phone}.png`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+
+      msg.textContent = "";
+
+      Swal.fire({
+        icon: 'success',
+        title: 'Welcome to BRHL Tour!',
+        text: 'Your BRHL Tour Receipt image has been downloaded. Safe travels!',
+        confirmButtonText: 'Thank You 💙'
+      });
+    }, {
+      onlyOnce: true
+    });
+  };
+</script>
+
+
+
+
+  <footer>
+    <div class="footer-container">
+      <p>© 2025 BRHL | All Rights Reserved</p>
+      <p>Developed by BRHL Team — <a href="tel:+8801611802209">Contact Us</a></p>
+    </div>
+  </footer>
+
+  <script type="module" src="script.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+</body>
+</html>

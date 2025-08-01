@@ -20,18 +20,22 @@
     <ul>
       <li><a href="Index.html">Home</a></li>
       <li><a href="reg.html">Registration Now</a></li>
-      <li><a href="hostManage.html">Host Management</a></li>
-      <li><a href="maintain.html">Pocket Report</a></li>
+      <li><a href="download.html">Download Recipt</a></li>
+      <li><a href="hostManage.html">Admin</a></li>
     </ul>
   </nav>
   <br>
 
   <section id="home">
-    <h1>Host Management</h1>
+    <h1>Admin Dashboard</h1>
     <p>Efficiently manage hosts, boarding points, payments, and more with ease.</p>
   </section>
-  <h2 id="tittle">Participants Information</h2>
 
+
+
+  
+  <h2 id="tittle">Participants Information</h2>
+  <div id="Participant">
   <p id="loadingMessage">Loading data, please wait...</p>
   <p id="noDataMessage" style="display:none;">No data found.</p>
     <table id="participantTable">
@@ -75,21 +79,6 @@
       <p>Developed by BRHL Team — <a href="tel:+8801611802209">Contact Us</a></p>
     </div>
   </footer>
-
-  
-
-  <script>
-  window.onload = function () {
-    const password = prompt("🔐 Enter admin password to access this page:");
-
-    if (password !== "brhl500k") {
-      alert("❌ Access Denied. Redirecting...");
-      window.location.href = "https://managetour.netlify.app"; // redirect to home or another page
-    } else {
-      alert("✅ Access Granted. Welcome Admin!");
-    }
-  };
-  </script>
 
 
   <script src="script.js"></script>
