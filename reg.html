@@ -28,8 +28,23 @@
   <section id="home">
     <h1>Tour Registration</h1>
     <p>Register now for the BRHL 500K Tour or grab only the exclusive BRHL T-shirt — your journey, your choice.</p>
-    <button id="sampleTshirtBtn" class="see-event-btn" onclick="alert('Sample T-shirt image coming soon!')">View Sample T-Shirt</button>
+    <button id="sampleTshirtBtn" class="see-event-btn" onclick="showSampleNotice()">View Sample Details</button>
   </section>
+
+  <div style="width: 90%; margin: 20px auto; text-align: center; background-color: bisque; border-radius: 10px;" id="tshirtSampleDiv">
+  <h3 style="margin-bottom: 20px;">Here Have T Shirt Sample</h3>
+  <div id="tshirtImages" style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+    <img src="gallery/Final Front.png" alt="T-Shirt Front" style="width: 45%; max-width: 300px; border: 1px solid #ccc; border-radius: 10px;">
+    <img src="gallery/Final Back.png" alt="T-Shirt Back" style="width: 45%; max-width: 300px; border: 1px solid #ccc; border-radius: 10px;">
+  </div>
+
+  <br>
+  <button onclick="downloadCombinedImage()" style="padding: 3px 25px; font-size: 12px; background-color: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer;">
+    ⬇ Download Demo
+  </button>
+  </div>
+
+  <br><br><hr>
 
   <img src="gallery/reg.png" alt="Registration" />
 
@@ -316,5 +331,8 @@
       document.getElementById("tshirt").style.display = type === "tshirt" ? "block" : "none";
     };
   </script>
+  <script src="script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </body>
 </html>

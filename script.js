@@ -18,20 +18,28 @@ function showForm(type) {
 }
 
 
+function showSampleNotice() {
+  Swal.fire({
+    title: '<div>Sample T-Shirt</div>',
+    imageUrl: 'gallery/details.png',
+    imageAlt: 'Sample T-Shirt',
+    html: '<p style="margin-top: 10px;">📌 To confirm your order, please complete the registration below.</p>',
+    confirmButtonText: 'Stay Tuned!',
+    confirmButtonColor: '#3085d6'
+  });
+}
 
 
+function downloadCombinedImage() {
+  const element = document.getElementById('tshirtImages');
 
-  function showSampleNotice() {
-    Swal.fire({
-      title: '📢 Sample Not Ready Yet',
-      text: 'Will be published soon.\nStay tuned - BRHL Team',
-      icon: 'info',
-      confirmButtonText: 'Thank You',
-      backdrop: 'rgba(0, 0, 0, 0.9)',
-      background: '#111',
-      color: '#fff'
-    });
-  }
+  html2canvas(element).then(canvas => {
+    const link = document.createElement('a');
+    link.download = 'Tshirt_Sample.png';
+    link.href = canvas.toDataURL();
+    link.click();
+  });
+}
 
 
 
