@@ -30,7 +30,7 @@
   <p>You can download your BRHL registration receipt by entering your registered phone number below.</p>
     </section>
 
-  <img src="gallery/down.jpg" alt="Download" style="width: 70%; max-width: 100%; height: auto; border-radius: 10px; display: block; margin: 10px auto;">
+  <img src="gallery/down.jpg" alt="Download" style="width: 55%; max-width: 100%; height: auto; border-radius: 10px; display: block; margin: 10px auto;">
 
   
   <br>
@@ -38,20 +38,13 @@
     <h2>Download Your Recipt</h2>
     <p id="msg"></p>
     <div class="radio-group">
-  <label>
-    <input type="radio" name="receiptType" value="tshirt" />
-    T-Shirt
-  </label>
-  <label>
-    <input type="radio" name="receiptType" value="tour" />
-    Tour Participant
-  </label>
-  </div>
-
+      <label><input type="radio" name="receiptType" value="tshirt" /> T-Shirt</label>
+      <label><input type="radio" name="receiptType" value="tour" /> Tour Participant</label>
+    </div>
     <input 
       type="number" 
       id="phoneInput" 
-      placeholder="Enter your registered phone number" 
+      placeholder="Enter registered phone number" 
     />
     <button id="down" onclick="downloadReceipt()">📥 Download Receipt</button>
   </div>
@@ -64,7 +57,7 @@
     align-items: center;
     gap: 5px;
     padding: 20px;
-    max-width: 450px;
+    max-width: 370px;
     margin: auto;
     background-color: #c9cea2;
     border-radius: 10px;
@@ -114,7 +107,7 @@
 
   .radio-group {
   display: flex;
-  gap: 20px;
+  gap: 40px;
   align-items: center;
   justify-content: center;
   font-size: 16px;
@@ -124,18 +117,15 @@
 .radio-group label {
   cursor: pointer;
   user-select: none;
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 8px; /* Optional: adjust for perfect spacing */
+  gap: 15px;
 }
 
 .radio-group input[type="radio"] {
-  transform: scale(1.4); /* Slightly smaller to reduce layout distortion */
-  margin-right: 4px;
-  vertical-align: middle;
+  transform: scale(1.8);
   cursor: pointer;
 }
-
 
 
 </style>
