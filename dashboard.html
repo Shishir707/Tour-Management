@@ -3,271 +3,178 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Full Host Management</title>
+  <title>BRHL Tour Admin Panel - Login</title>
   <link rel="shortcut icon" href="gallery/brhlLogo.jpeg" type="image/jpeg" />
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0; padding: 0;
-      background: #f9f9f9;
+    /* Basic styling omitted for brevity, reuse your styles */
+    body, html {
+      margin:0; padding:0; height:100%;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f5f7fa;
     }
-    header {
-      background: #004080;
-      color: white;
-      padding: 10px 20px;
-      display: flex;
-      align-items: center;
-    }
-    header img {
-      height: 40px;
-      margin-right: 10px;
-    }
-    nav ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      display: flex;
-      background: #eee;
-    }
-    nav ul li {
-      margin: 0 10px;
-    }
-    nav ul li a {
-      text-decoration: none;
-      color: #004080;
-      font-weight: bold;
-      padding: 10px 15px;
-      display: block;
-    }
-    nav ul li a:hover {
-      background: #004080;
-      color: white;
-    }
-    section {
-      padding: 20px;
-    }
-    .dashboard-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      justify-content: space-between;
-    }
-    .dashboard-section {
-      flex: 1 1 100%;
-      min-width: 600px;
-      background: white;
-      padding: 10px;
-      border-radius: 6px;
-      box-shadow: 0 0 8px rgba(0,0,0,0.1);
-      overflow-x: auto;
-    }
-    table {
+    .page-container {
+      max-width: 650px;
       width: 100%;
-      border-collapse: collapse;
-      font-size: 14px;
+      margin: 20px auto;
+      background: white;
+      box-shadow: 0 0 20px rgba(0,0,0,0.08);
+      border-radius: 8px;
+      overflow: hidden;
+      display: none; /* hide before login */
+      flex-direction: column;
+      min-height: 100vh;
+      position: relative;
     }
-    th, td {
-      padding: 6px 8px;
-      border: 1px solid #ddd;
-      text-align: left;
-      white-space: nowrap;
-    }
-    th {
-      background: #004080;
-      color: white;
-    }
-    @media (min-width: 1000px) {
-      .dashboard-section {
-        flex: 1 1 48%;
-      }
-    }
-    footer {
-      background: #004080;
-      color: white;
-      padding: 15px 20px;
-      text-align: center;
-      margin-top: 30px;
-    }
-    /* Login Modal */
-    #loginModal {
-      position: fixed; top:0; left:0; width:100%; height:100vh;
+    header, nav, main, footer { padding: 15px 20px; }
+    header { background: #004080; color: white; display: flex; align-items: center; gap: 12px; border-top-left-radius: 8px; border-top-right-radius: 8px;}
+    header img { height: 36px; border-radius: 4px; }
+    nav { background: #0073e6; }
+    nav ul { list-style: none; margin: 0; padding: 0; display: flex; justify-content: space-around; }
+    nav ul li { flex: 1; text-align: center; }
+    nav ul li a { display: block; padding: 12px 0; color: white; text-decoration: none; font-weight: 600; }
+    nav ul li a:hover { background: #005bb5; }
+    table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 14px; }
+    th, td { border: 1px solid #ddd; padding: 8px 10px; text-align: left; }
+    th { background: #f0f4ff; color: #004080; font-weight: 700; }
+    tr:nth-child(even) { background: #fafafa; }
+    tr:hover { background: #e6f0ff; }
+    button { background: #004080; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: 600; }
+    button:hover { background: #003366; }
+    footer { background: #004080; color: white; text-align: center; font-size: 13px; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px; }
+
+    /* Login Overlay */
+    #loginOverlay {
+      position: fixed; top:0; left:0; right:0; bottom:0;
       background: rgba(0,0,0,0.8);
-      display: flex; align-items: center; justify-content: center;
-      z-index: 9999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 99999;
     }
     #loginBox {
       background: white;
-      padding: 30px 25px;
+      padding: 30px 40px;
       border-radius: 10px;
       width: 320px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
       text-align: center;
     }
     #loginBox h2 {
       margin-bottom: 20px;
       color: #004080;
+      user-select: none;
     }
     #loginBox input {
       width: 100%;
-      padding: 10px 8px;
-      margin: 8px 0;
-      font-size: 16px;
+      padding: 10px;
+      margin-bottom: 15px;
       border: 1px solid #ccc;
-      border-radius: 6px;
-      box-sizing: border-box;
-    }
-    #loginBtn {
-      width: 100%;
-      padding: 12px;
-      margin-top: 15px;
+      border-radius: 5px;
       font-size: 16px;
-      background: #004080;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
     }
-    #loginBtn:hover {
-      background: #003060;
+    #loginBox button {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
     }
     #loginError {
       color: red;
-      margin-top: 12px;
-      display: none;
+      margin-top: 10px;
+      min-height: 18px;
+      user-select: none;
     }
-    /* Logout Button */
+
+    /* Logout button */
     #logoutBtn {
       position: fixed;
-      top: 15px;
-      right: 15px;
-      padding: 8px 15px;
-      font-size: 14px;
-      cursor: pointer;
-      border: none;
-      background: #f44336;
+      top: 12px;
+      right: 12px;
+      background: #cc3333;
       color: white;
-      border-radius: 5px;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 600;
+      z-index: 10000;
       display: none;
-      z-index: 1000;
     }
   </style>
 </head>
 <body>
-  <header>
-    <img src="gallery/brhlLogo.jpeg" alt="BRHL Logo" />
-    <h1>BRHL Tour Admin Panel</h1>
-  </header>
-
-  <nav>
-    <ul>
-      <li><a href="Index.html">Home</a></li>
-      <li><a href="reg.html">Registration Now</a></li>
-      <li><a href="download.html">Download Receipt</a></li>
-      <li><a href="dashboard.html">Admin</a></li>
-    </ul>
-  </nav>
-
-  <!-- Login Modal -->
-  <div id="loginModal">
+  <!-- Login Overlay -->
+  <div id="loginOverlay">
     <div id="loginBox">
       <h2>Admin Login</h2>
-      <input id="loginUser" type="text" placeholder="Username" autocomplete="username" />
-      <input id="loginPass" type="password" placeholder="Password" autocomplete="current-password" />
-      <button id="loginBtn">Login</button>
-      <p id="loginError"></p>
+      <form id="loginForm">
+        <input type="text" id="username" placeholder="Username" autocomplete="username" required />
+        <input type="password" id="password" placeholder="Password" autocomplete="current-password" required />
+        <button type="submit">Login</button>
+      </form>
+      <div id="loginError"></div>
     </div>
   </div>
 
-  <!-- Dashboard Content Wrapper -->
-  <div id="dashboardContent" style="display:none;">
-    <button id="logoutBtn">Logout</button>
+  <button id="logoutBtn">Logout</button>
 
-    <section>
-      <h2>Dashboard</h2>
-    </section>
+  <div class="page-container" id="pageContainer">
+    <header>
+      <img src="gallery/brhlLogo.jpeg" alt="BRHL Logo" />
+      <h1>BRHL Tour Admin Panel</h1>
+    </header>
 
-    <section class="dashboard-container">
-      <!-- Participant Section -->
-      <div class="dashboard-section" style="overflow-x:auto;">
+    <main>
+      <section style="overflow-x:scroll;">
         <h2>Participants Information</h2>
-        <p id="loadingMessage">Loading participants...</p>
-        <p id="noDataMessage" style="display:none;">No participant data found.</p>
-        <table id="participantTable" style="display:none;">
+        <table>
           <thead>
             <tr>
-              <th>Name</th>
-              <th>Phone</th>
-              <th>Boarding</th>
-              <th>Size</th>
-              <th>Paid</th>
-              <th>Due</th>
-              <th>Payment</th>
-              <th>Ref</th>
-              <th>Collector</th>
-              <th>Comment</th>
-              <th>Reg. Time</th>
-              <th>Status</th>
-              <th>Action</th>
+              <th>Name</th><th>Phone</th><th>Boarding</th><th>Size</th><th>Paid</th><th>Due</th><th>Payment</th><th>Ref</th><th>Collector</th><th>Comment</th><th>Reg. Time</th><th>Status</th><th>Action</th>
             </tr>
           </thead>
           <tbody id="participantBody"></tbody>
         </table>
-      </div>
+      </section>
 
-      <!-- T-Shirt Orders Section -->
-      <div class="dashboard-section" style="overflow-x:auto;">
+      <section style="margin-top:40px; overflow-x: scroll;">
         <h2>T-Shirt Orders</h2>
         <table>
           <thead>
             <tr>
-              <th>Name</th>
-              <th>Phone</th>
-              <th>Hometown</th>
-              <th>Size</th>
-              <th>Payment</th>
-              <th>Ref</th>
-              <th>Collector</th>
-              <th>xtr1</th>
-              <th>xtr2</th>
-              <th>xtr3</th>
-              <th>xtr4</th>
-              <th>Comment</th>
-              <th>Status</th>
-              <th>Action</th>
+              <th>Name</th><th>Phone</th><th>Hometown</th><th>Size</th><th>Payment</th><th>Ref</th><th>Collector</th><th>xtr1</th><th>xtr2</th><th>xtr3</th><th>xtr4</th><th>Comment</th><th>Status</th><th>Action</th>
             </tr>
           </thead>
           <tbody id="orderTableBody"></tbody>
         </table>
-      </div>
-    </section>
+      </section>
+    </main>
+
+    <footer>
+      © 2025 BRHL | All Rights Reserved — Developed by BRHL Team — 
+      <a href="tel:+8801611802209">Contact Us</a>
+    </footer>
   </div>
 
-  <footer>
-    <div class="footer-container">
-      <p>© 2025 BRHL | All Rights Reserved</p>
-      <p>Developed by BRHL Team — <a href="tel:+8801611802209" style="color:#aaddff;">Contact Us</a></p>
-    </div>
-  </footer>
-
-  <!-- Firebase and Main Script -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
-    import { getDatabase, ref, onValue, update } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-database.js";
+    import { getDatabase, ref, onValue, update, get } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-database.js";
 
-    // Firebase Configs
-    const firebaseConfigLogin = {
+    // Initialize login Firebase app
+    const loginApp = initializeApp({
       apiKey: "AIzaSyDDaCzvKggCYpn-wx3GSODfSnJX5p6lTm8",
       authDomain: "brhl-68080.firebaseapp.com",
+      databaseURL: "https://brhl-68080-default-rtdb.firebaseio.com",
       projectId: "brhl-68080",
-      storageBucket: "brhl-68080.firebasestorage.app",
+      storageBucket: "brhl-68080.appspot.com",
       messagingSenderId: "884350353757",
       appId: "1:884350353757:web:bf3eb1295b0d9807f1a8b4",
       measurementId: "G-6CDMT0GPXC"
-    };
-    const appLogin = initializeApp(firebaseConfigLogin, "loginApp");
-    const dbLogin = getDatabase(appLogin);
+    }, "loginApp");
 
-    const firebaseConfigParticipants = {
+    const dbLogin = getDatabase(loginApp);
+
+    // Participants app
+    const app1 = initializeApp({
       apiKey: "AIzaSyCHEWExCVcYm5ZTQlRToVPD6mzFkuuOHsY",
       authDomain: "participate-322ac.firebaseapp.com",
       databaseURL: "https://participate-322ac-default-rtdb.firebaseio.com",
@@ -276,11 +183,12 @@
       messagingSenderId: "1086204135947",
       appId: "1:1086204135947:web:9d2a1bdc26d9efc2ced50e",
       measurementId: "G-CBSQZBPHVH"
-    };
-    const appParticipants = initializeApp(firebaseConfigParticipants, "participantsApp");
-    const dbParticipants = getDatabase(appParticipants);
+    }, "app1");
+    const db1 = getDatabase(app1);
+    const participantBody = document.getElementById("participantBody");
 
-    const firebaseConfigTshirt = {
+    // T-shirt orders app
+    const app2 = initializeApp({
       apiKey: "AIzaSyB5_LrlzM-okCEOcdUVHUK7brFfCZaADk0",
       authDomain: "t-shirt-3bee7.firebaseapp.com",
       databaseURL: "https://t-shirt-3bee7-default-rtdb.firebaseio.com",
@@ -289,103 +197,30 @@
       messagingSenderId: "537345037025",
       appId: "1:537345037025:web:293547ec53830e16559da0",
       measurementId: "G-PD5P7EL7N9"
-    };
-    const appTshirt = initializeApp(firebaseConfigTshirt, "tshirtApp");
-    const dbTshirt = getDatabase(appTshirt);
-
-    // Elements
-    const loginModal = document.getElementById("loginModal");
-    const loginBtn = document.getElementById("loginBtn");
-    const loginUser = document.getElementById("loginUser");
-    const loginPass = document.getElementById("loginPass");
-    const loginError = document.getElementById("loginError");
-    const dashboardContent = document.getElementById("dashboardContent");
-    const logoutBtn = document.getElementById("logoutBtn");
-
-    const participantTable = document.getElementById("participantTable");
-    const participantBody = document.getElementById("participantBody");
-    const loadingMessage = document.getElementById("loadingMessage");
-    const noDataMessage = document.getElementById("noDataMessage");
-
+    }, "app2");
+    const db2 = getDatabase(app2);
     const orderTableBody = document.getElementById("orderTableBody");
 
-    // Show/hide dashboard and login modal
-    function showDashboard() {
-      loginModal.style.display = "none";
-      dashboardContent.style.display = "block";
-      logoutBtn.style.display = "inline-block";
-    }
-    function hideDashboard() {
-      loginModal.style.display = "flex";
-      dashboardContent.style.display = "none";
-      logoutBtn.style.display = "none";
-    }
+    // Elements
+    const loginOverlay = document.getElementById("loginOverlay");
+    const loginForm = document.getElementById("loginForm");
+    const loginError = document.getElementById("loginError");
+    const pageContainer = document.getElementById("pageContainer");
+    const logoutBtn = document.getElementById("logoutBtn");
 
-    // On page load, check sessionStorage
-    if (sessionStorage.getItem("loggedIn") === "true") {
-      showDashboard();
-      fetchParticipants();
-      fetchOrders();
-    } else {
-      hideDashboard();
-    }
+    let isLoggedIn = false;
 
-    loginBtn.onclick = () => {
-      loginError.style.display = "none";
-      const username = loginUser.value.trim();
-      const password = loginPass.value.trim();
-
-      if (!username || !password) {
-        loginError.textContent = "Please enter username and password.";
-        loginError.style.display = "block";
-        return;
-      }
-
-      const credRef = ref(dbLogin, "/");
-      onValue(credRef, (snapshot) => {
-        const val = snapshot.val();
-        if (val && val.userName === username && val.password === password) {
-          sessionStorage.setItem("loggedIn", "true");
-          showDashboard();
-          fetchParticipants();
-          fetchOrders();
-          loginError.style.display = "none";
-        } else {
-          loginError.textContent = "Invalid username or password.";
-          loginError.style.display = "block";
-        }
-      }, { onlyOnce: true });
-    };
-
-    logoutBtn.onclick = () => {
-      sessionStorage.removeItem("loggedIn");
-      hideDashboard();
-      loginUser.value = "";
-      loginPass.value = "";
-      participantBody.innerHTML = "";
-      orderTableBody.innerHTML = "";
-    };
-
-    // Fetch Participants
+    // Fetch participant data
     function fetchParticipants() {
-      loadingMessage.style.display = "block";
-      noDataMessage.style.display = "none";
-      participantTable.style.display = "none";
-
-      const regRef = ref(dbParticipants, "registrations");
+      const regRef = ref(db1, "registrations");
       onValue(regRef, (snapshot) => {
         const data = snapshot.val();
         participantBody.innerHTML = "";
-
         if (data) {
-          participantTable.style.display = "table";
-          loadingMessage.style.display = "none";
-          noDataMessage.style.display = "none";
-
           Object.entries(data).forEach(([id, p]) => {
             const status = p.status || "Pending";
-            const row = document.createElement("tr");
-            row.innerHTML = `
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
               <td>${p.name || ""}</td>
               <td>${p.phone || ""}</td>
               <td>${p.boarding || ""}</td>
@@ -400,35 +235,30 @@
               <td><span style="color:${status === "Confirmed" ? "green" : "red"}">${status}</span></td>
               <td>${status === "Confirmed" ? "✔" : `<button onclick="confirmParticipant('${id}')">Confirm</button>`}</td>
             `;
-            participantBody.appendChild(row);
+            participantBody.appendChild(tr);
           });
         } else {
-          participantTable.style.display = "none";
-          loadingMessage.style.display = "none";
-          noDataMessage.style.display = "block";
+          participantBody.innerHTML = '<tr><td colspan="13" style="text-align:center; color:#666;">No participant data found.</td></tr>';
         }
       });
     }
 
     window.confirmParticipant = async function(id) {
-      const confirmRef = ref(dbParticipants, `registrations/${id}`);
+      const confirmRef = ref(db1, `registrations/${id}`);
       await update(confirmRef, { status: "Confirmed" });
       alert("Status updated to Confirmed!");
     };
 
-    // Fetch T-Shirt Orders
+    // Fetch T-shirt orders
     function fetchOrders() {
-      const ordersRef = ref(dbTshirt, "extraTshirtOrders");
-      onValue(ordersRef, (snapshot) => {
+      onValue(ref(db2, "extraTshirtOrders"), (snapshot) => {
         orderTableBody.innerHTML = "";
-
         snapshot.forEach((child) => {
           const data = child.val();
           const key = child.key;
           const status = data.status || "Pending";
-
-          const row = document.createElement("tr");
-          row.innerHTML = `
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
             <td>${data.name || ""}</td>
             <td>${data.phone || ""}</td>
             <td>${data.homeStation || ""}</td>
@@ -448,7 +278,7 @@
               </button>
             </td>
           `;
-          orderTableBody.appendChild(row);
+          orderTableBody.appendChild(tr);
         });
       });
     }
@@ -458,12 +288,73 @@
       const currentStatus = statusSpan.textContent.trim();
       const newStatus = currentStatus === "Pending" ? "Confirmed" : "Pending";
 
-      update(ref(dbTshirt, `extraTshirtOrders/${orderId}`), { status: newStatus }).then(() => {
+      update(ref(db2, `extraTshirtOrders/${orderId}`), {
+        status: newStatus
+      }).then(() => {
         statusSpan.textContent = newStatus;
         statusSpan.style.color = newStatus === "Pending" ? "red" : "green";
         button.textContent = newStatus === "Pending" ? "⏳ Pending" : "✅ Confirm";
       });
     };
+
+    // Handle login form submit
+    loginForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      loginError.textContent = "";
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value.trim();
+
+      if (!username || !password) {
+        loginError.textContent = "Please enter username and password.";
+        return;
+      }
+
+      try {
+        console.log("Trying login for:", username);
+        const credRef = ref(dbLogin, "/");
+        const snapshot = await get(credRef);
+        const cred = snapshot.val();
+        console.log("DB credentials:", cred);
+
+        if (!cred) {
+          loginError.textContent = "No credentials found in DB.";
+          return;
+        }
+
+        if (cred.userName === username && cred.password === password) {
+          isLoggedIn = true;
+          loginOverlay.style.display = "none";
+          pageContainer.style.display = "flex";
+          logoutBtn.style.display = "block";
+          fetchParticipants();
+          fetchOrders();
+          Swal.fire({
+            icon: 'success',
+            title: 'Login Successful!',
+            html: '<p style="font-size:14px; margin:0;">Hello Admin</p><p style="font-size:20px; font-weight:bold; margin:0;">Welcome back!</p>',
+            showConfirmButton: false,
+            timer: 2000
+          });
+        } else {
+          loginError.textContent = "Invalid username or password.";
+        }
+      } catch (error) {
+        loginError.textContent = "Error connecting to database.";
+        console.error(error);
+      }
+    });
+
+    // Logout
+    logoutBtn.addEventListener("click", () => {
+    isLoggedIn = false;
+    pageContainer.style.display = "none";
+    logoutBtn.style.display = "none";
+    loginOverlay.style.display = "flex";
+    loginForm.reset();
+    loginError.textContent = "";
+    window.location.href = "Index.html";  // Redirect to home page on logout
+    });
   </script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>
