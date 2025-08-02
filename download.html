@@ -107,7 +107,7 @@
 
   .radio-group {
   display: flex;
-  gap: 40px;
+  gap: 20px;
   align-items: center;
   justify-content: center;
   font-size: 16px;
@@ -117,15 +117,18 @@
 .radio-group label {
   cursor: pointer;
   user-select: none;
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 5px;
+  gap: 8px; /* Optional: adjust for perfect spacing */
 }
 
 .radio-group input[type="radio"] {
-  transform: scale(1.8);
+  transform: scale(1.4); /* Slightly smaller to reduce layout distortion */
+  margin-right: 4px;
+  vertical-align: middle;
   cursor: pointer;
 }
+
 
 
 </style>
