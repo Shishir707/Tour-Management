@@ -17,50 +17,7 @@ function showForm(type) {
   }
 }
 
-  window.onload = async function () {
-  const currentPage = window.location.pathname.split('/').pop();
 
-  if (currentPage === 'hostmanage') {
-    const { value: password } = await Swal.fire({
-      title: 'Admin Access Required',
-      input: 'password',
-      inputLabel: 'Enter the password',
-      inputPlaceholder: 'Password',
-      inputAttributes: {
-        maxlength: 20,
-        autocapitalize: 'off',
-        autocorrect: 'off'
-      },
-      backdrop: 'rgba(0, 0, 0, 1)',
-      background: '#111',
-      color: '#fff',
-      allowOutsideClick: false,
-      showCancelButton: false,
-      confirmButtonText: 'Enter'
-    });
-
-    if (password !== 'brhl500') {
-      await Swal.fire({
-        icon: 'error',
-        title: 'Access Denied',
-        text: 'Incorrect password. Redirecting...',
-        backdrop: 'rgba(0, 0, 0, 1)',
-        background: '#111',
-        color: '#fff',
-        allowOutsideClick: false,
-        showConfirmButton: false,
-        timer: 2000
-      });
-      location.href = 'index.html';
-    } else {
-      // ✅ Show the protected content
-      document.getElementById('protectedContent').style.display = 'block';
-    }
-  } else {
-    // Not the hostmanage page, show everything normally
-    document.getElementById('protectedContent').style.display = 'block';
-  }
-};
 
 
 
@@ -222,3 +179,35 @@ function order() {
 
 
 
+function copyToClipboard(btn, number) {
+  const localNumber = number.replace(/^(\+88)/, ''); // removes +88 if present
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(localNumber)
+      .then(() => {
+        btn.textContent = '✅ Copied!';
+        btn.disabled = true;
+        setTimeout(() => {
+          btn.textContent = '📋Copy';
+          btn.disabled = false;
+        }, 1500);
+      });
+  } else {
+    const textarea = document.createElement('textarea');
+    textarea.value = localNumber;
+    textarea.style.position = 'fixed';
+    textarea.style.left = '-9999px';
+    document.body.appendChild(textarea);
+    textarea.select();
+    try {
+      document.execCommand('copy');
+      btn.textContent = '✅ Copied!';
+      btn.disabled = true;
+      setTimeout(() => {
+        btn.textContent = '📋Copy';
+        btn.disabled = false;
+      }, 1500);
+    } finally {
+      document.body.removeChild(textarea);
+    }
+  }
+}

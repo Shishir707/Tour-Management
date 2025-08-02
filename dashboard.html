@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Full Host Management</title>
+  <link rel="shortcut icon" href="gallery/brhlLogo.jpeg" type="image/jpeg" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0; padding: 0;
+      background: #f9f9f9;
+    }
+    header {
+      background: #004080;
+      color: white;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+    }
+    header img {
+      height: 40px;
+      margin-right: 10px;
+    }
+    nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      background: #eee;
+    }
+    nav ul li {
+      margin: 0 10px;
+    }
+    nav ul li a {
+      text-decoration: none;
+      color: #004080;
+      font-weight: bold;
+      padding: 10px 15px;
+      display: block;
+    }
+    nav ul li a:hover {
+      background: #004080;
+      color: white;
+    }
+    section {
+      padding: 20px;
+    }
+    .dashboard-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: space-between;
+    }
+    .dashboard-section {
+      flex: 1 1 100%;
+      min-width: 600px;
+      background: white;
+      padding: 10px;
+      border-radius: 6px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+      overflow-x: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    th, td {
+      padding: 6px 8px;
+      border: 1px solid #ddd;
+      text-align: left;
+      white-space: nowrap;
+    }
+    th {
+      background: #004080;
+      color: white;
+    }
+    @media (min-width: 1000px) {
+      .dashboard-section {
+        flex: 1 1 48%;
+      }
+    }
+    footer {
+      background: #004080;
+      color: white;
+      padding: 15px 20px;
+      text-align: center;
+      margin-top: 30px;
+    }
+    /* Login Modal */
+    #loginModal {
+      position: fixed; top:0; left:0; width:100%; height:100vh;
+      background: rgba(0,0,0,0.8);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 9999;
+    }
+    #loginBox {
+      background: white;
+      padding: 30px 25px;
+      border-radius: 10px;
+      width: 320px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+      text-align: center;
+    }
+    #loginBox h2 {
+      margin-bottom: 20px;
+      color: #004080;
+    }
+    #loginBox input {
+      width: 100%;
+      padding: 10px 8px;
+      margin: 8px 0;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      box-sizing: border-box;
+    }
+    #loginBtn {
+      width: 100%;
+      padding: 12px;
+      margin-top: 15px;
+      font-size: 16px;
+      background: #004080;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    #loginBtn:hover {
+      background: #003060;
+    }
+    #loginError {
+      color: red;
+      margin-top: 12px;
+      display: none;
+    }
+    /* Logout Button */
+    #logoutBtn {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      padding: 8px 15px;
+      font-size: 14px;
+      cursor: pointer;
+      border: none;
+      background: #f44336;
+      color: white;
+      border-radius: 5px;
+      display: none;
+      z-index: 1000;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="gallery/brhlLogo.jpeg" alt="BRHL Logo" />
+    <h1>BRHL Tour Admin Panel</h1>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="Index.html">Home</a></li>
+      <li><a href="reg.html">Registration Now</a></li>
+      <li><a href="download.html">Download Receipt</a></li>
+      <li><a href="dashboard.html">Admin</a></li>
+    </ul>
+  </nav>
+
+  <!-- Login Modal -->
+  <div id="loginModal">
+    <div id="loginBox">
+      <h2>Admin Login</h2>
+      <input id="loginUser" type="text" placeholder="Username" autocomplete="username" />
+      <input id="loginPass" type="password" placeholder="Password" autocomplete="current-password" />
+      <button id="loginBtn">Login</button>
+      <p id="loginError"></p>
+    </div>
+  </div>
+
+  <!-- Dashboard Content Wrapper -->
+  <div id="dashboardContent" style="display:none;">
+    <button id="logoutBtn">Logout</button>
+
+    <section>
+      <h2>Dashboard</h2>
+    </section>
+
+    <section class="dashboard-container">
+      <!-- Participant Section -->
+      <div class="dashboard-section" style="overflow-x:auto;">
+        <h2>Participants Information</h2>
+        <p id="loadingMessage">Loading participants...</p>
+        <p id="noDataMessage" style="display:none;">No participant data found.</p>
+        <table id="participantTable" style="display:none;">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Phone</th>
+              <th>Boarding</th>
+              <th>Size</th>
+              <th>Paid</th>
+              <th>Due</th>
+              <th>Payment</th>
+              <th>Ref</th>
+              <th>Collector</th>
+              <th>Comment</th>
+              <th>Reg. Time</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="participantBody"></tbody>
+        </table>
+      </div>
+
+      <!-- T-Shirt Orders Section -->
+      <div class="dashboard-section" style="overflow-x:auto;">
+        <h2>T-Shirt Orders</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Phone</th>
+              <th>Hometown</th>
+              <th>Size</th>
+              <th>Payment</th>
+              <th>Ref</th>
+              <th>Collector</th>
+              <th>xtr1</th>
+              <th>xtr2</th>
+              <th>xtr3</th>
+              <th>xtr4</th>
+              <th>Comment</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="orderTableBody"></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <div class="footer-container">
+      <p>© 2025 BRHL | All Rights Reserved</p>
+      <p>Developed by BRHL Team — <a href="tel:+8801611802209" style="color:#aaddff;">Contact Us</a></p>
+    </div>
+  </footer>
+
+  <!-- Firebase and Main Script -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+    import { getDatabase, ref, onValue, update } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-database.js";
+
+    // Firebase Configs
+    const firebaseConfigLogin = {
+      apiKey: "AIzaSyDDaCzvKggCYpn-wx3GSODfSnJX5p6lTm8",
+      authDomain: "brhl-68080.firebaseapp.com",
+      projectId: "brhl-68080",
+      storageBucket: "brhl-68080.firebasestorage.app",
+      messagingSenderId: "884350353757",
+      appId: "1:884350353757:web:bf3eb1295b0d9807f1a8b4",
+      measurementId: "G-6CDMT0GPXC"
+    };
+    const appLogin = initializeApp(firebaseConfigLogin, "loginApp");
+    const dbLogin = getDatabase(appLogin);
+
+    const firebaseConfigParticipants = {
+      apiKey: "AIzaSyCHEWExCVcYm5ZTQlRToVPD6mzFkuuOHsY",
+      authDomain: "participate-322ac.firebaseapp.com",
+      databaseURL: "https://participate-322ac-default-rtdb.firebaseio.com",
+      projectId: "participate-322ac",
+      storageBucket: "participate-322ac.appspot.com",
+      messagingSenderId: "1086204135947",
+      appId: "1:1086204135947:web:9d2a1bdc26d9efc2ced50e",
+      measurementId: "G-CBSQZBPHVH"
+    };
+    const appParticipants = initializeApp(firebaseConfigParticipants, "participantsApp");
+    const dbParticipants = getDatabase(appParticipants);
+
+    const firebaseConfigTshirt = {
+      apiKey: "AIzaSyB5_LrlzM-okCEOcdUVHUK7brFfCZaADk0",
+      authDomain: "t-shirt-3bee7.firebaseapp.com",
+      databaseURL: "https://t-shirt-3bee7-default-rtdb.firebaseio.com",
+      projectId: "t-shirt-3bee7",
+      storageBucket: "t-shirt-3bee7.appspot.com",
+      messagingSenderId: "537345037025",
+      appId: "1:537345037025:web:293547ec53830e16559da0",
+      measurementId: "G-PD5P7EL7N9"
+    };
+    const appTshirt = initializeApp(firebaseConfigTshirt, "tshirtApp");
+    const dbTshirt = getDatabase(appTshirt);
+
+    // Elements
+    const loginModal = document.getElementById("loginModal");
+    const loginBtn = document.getElementById("loginBtn");
+    const loginUser = document.getElementById("loginUser");
+    const loginPass = document.getElementById("loginPass");
+    const loginError = document.getElementById("loginError");
+    const dashboardContent = document.getElementById("dashboardContent");
+    const logoutBtn = document.getElementById("logoutBtn");
+
+    const participantTable = document.getElementById("participantTable");
+    const participantBody = document.getElementById("participantBody");
+    const loadingMessage = document.getElementById("loadingMessage");
+    const noDataMessage = document.getElementById("noDataMessage");
+
+    const orderTableBody = document.getElementById("orderTableBody");
+
+    // Show/hide dashboard and login modal
+    function showDashboard() {
+      loginModal.style.display = "none";
+      dashboardContent.style.display = "block";
+      logoutBtn.style.display = "inline-block";
+    }
+    function hideDashboard() {
+      loginModal.style.display = "flex";
+      dashboardContent.style.display = "none";
+      logoutBtn.style.display = "none";
+    }
+
+    // On page load, check sessionStorage
+    if (sessionStorage.getItem("loggedIn") === "true") {
+      showDashboard();
+      fetchParticipants();
+      fetchOrders();
+    } else {
+      hideDashboard();
+    }
+
+    loginBtn.onclick = () => {
+      loginError.style.display = "none";
+      const username = loginUser.value.trim();
+      const password = loginPass.value.trim();
+
+      if (!username || !password) {
+        loginError.textContent = "Please enter username and password.";
+        loginError.style.display = "block";
+        return;
+      }
+
+      const credRef = ref(dbLogin, "/");
+      onValue(credRef, (snapshot) => {
+        const val = snapshot.val();
+        if (val && val.userName === username && val.password === password) {
+          sessionStorage.setItem("loggedIn", "true");
+          showDashboard();
+          fetchParticipants();
+          fetchOrders();
+          loginError.style.display = "none";
+        } else {
+          loginError.textContent = "Invalid username or password.";
+          loginError.style.display = "block";
+        }
+      }, { onlyOnce: true });
+    };
+
+    logoutBtn.onclick = () => {
+      sessionStorage.removeItem("loggedIn");
+      hideDashboard();
+      loginUser.value = "";
+      loginPass.value = "";
+      participantBody.innerHTML = "";
+      orderTableBody.innerHTML = "";
+    };
+
+    // Fetch Participants
+    function fetchParticipants() {
+      loadingMessage.style.display = "block";
+      noDataMessage.style.display = "none";
+      participantTable.style.display = "none";
+
+      const regRef = ref(dbParticipants, "registrations");
+      onValue(regRef, (snapshot) => {
+        const data = snapshot.val();
+        participantBody.innerHTML = "";
+
+        if (data) {
+          participantTable.style.display = "table";
+          loadingMessage.style.display = "none";
+          noDataMessage.style.display = "none";
+
+          Object.entries(data).forEach(([id, p]) => {
+            const status = p.status || "Pending";
+            const row = document.createElement("tr");
+            row.innerHTML = `
+              <td>${p.name || ""}</td>
+              <td>${p.phone || ""}</td>
+              <td>${p.boarding || ""}</td>
+              <td>${p.tshirtSize || ""}</td>
+              <td>${p.paidAmount || "0"}</td>
+              <td>${p.dueAmount || "0"}</td>
+              <td>${p.paymentMethod || ""}</td>
+              <td>${p.reference || ""}</td>
+              <td>${p.collector || ""}</td>
+              <td>${p.comment || ""}</td>
+              <td>${p.timestamp ? new Date(p.timestamp).toLocaleString() : ""}</td>
+              <td><span style="color:${status === "Confirmed" ? "green" : "red"}">${status}</span></td>
+              <td>${status === "Confirmed" ? "✔" : `<button onclick="confirmParticipant('${id}')">Confirm</button>`}</td>
+            `;
+            participantBody.appendChild(row);
+          });
+        } else {
+          participantTable.style.display = "none";
+          loadingMessage.style.display = "none";
+          noDataMessage.style.display = "block";
+        }
+      });
+    }
+
+    window.confirmParticipant = async function(id) {
+      const confirmRef = ref(dbParticipants, `registrations/${id}`);
+      await update(confirmRef, { status: "Confirmed" });
+      alert("Status updated to Confirmed!");
+    };
+
+    // Fetch T-Shirt Orders
+    function fetchOrders() {
+      const ordersRef = ref(dbTshirt, "extraTshirtOrders");
+      onValue(ordersRef, (snapshot) => {
+        orderTableBody.innerHTML = "";
+
+        snapshot.forEach((child) => {
+          const data = child.val();
+          const key = child.key;
+          const status = data.status || "Pending";
+
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td>${data.name || ""}</td>
+            <td>${data.phone || ""}</td>
+            <td>${data.homeStation || ""}</td>
+            <td>${data.tshirtSize || ""}</td>
+            <td>${data.paymentMethod || ""}</td>
+            <td>${data.reference || ""}</td>
+            <td>${data.collector || ""}</td>
+            <td>${data.extra1 || ""}</td>
+            <td>${data.extra2 || ""}</td>
+            <td>${data.extra3 || ""}</td>
+            <td>${data.extra4 || ""}</td>
+            <td>${data.comment || ""}</td>
+            <td><span style="color:${status === "Pending" ? "red" : "green"}" id="status-${key}">${status}</span></td>
+            <td>
+              <button onclick="confirmOrder('${key}', this)">
+                ${status === "Pending" ? "⏳ Pending" : "✅ Confirm"}
+              </button>
+            </td>
+          `;
+          orderTableBody.appendChild(row);
+        });
+      });
+    }
+
+    window.confirmOrder = function (orderId, button) {
+      const statusSpan = document.getElementById(`status-${orderId}`);
+      const currentStatus = statusSpan.textContent.trim();
+      const newStatus = currentStatus === "Pending" ? "Confirmed" : "Pending";
+
+      update(ref(dbTshirt, `extraTshirtOrders/${orderId}`), { status: newStatus }).then(() => {
+        statusSpan.textContent = newStatus;
+        statusSpan.style.color = newStatus === "Pending" ? "red" : "green";
+        button.textContent = newStatus === "Pending" ? "⏳ Pending" : "✅ Confirm";
+      });
+    };
+  </script>
+</body>
+</html>

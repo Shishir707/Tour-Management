@@ -21,7 +21,7 @@
       <li><a href="Index.html">Home</a></li>
       <li><a href="reg.html">Registration Now</a></li>
       <li><a href="download.html">Download Recipt</a></li>
-      <li><a href="hostManage.html">Admin</a></li>
+      <li><a href="dashboard.html">Admin</a></li>
     </ul>
   </nav>
 
@@ -30,19 +30,24 @@
   <p>You can download your BRHL registration receipt by entering your registered phone number below.</p>
     </section>
 
+  <img src="gallery/down.jpg" alt="Download" style="width: 40%; max-width: 100%; height: auto; border-radius: 10px; display: block; margin: 10px auto;">
+
   
   <br>
-  <h2>Download Your Recipt</h2>
-  <p id="note" style="opacity: 0.5;">Receipt Only for Participant</p>
   <div class="receipt-container">
+    <h2>Download Your Recipt</h2>
+    <p id="msg"></p>
+    <div class="radio-group">
+      <label><input type="radio" name="receiptType" value="tshirt" /> T-Shirt</label>
+      <label><input type="radio" name="receiptType" value="tour" /> Tour Participant</label>
+    </div>
     <input 
-      type="text" 
+      type="number" 
       id="phoneInput" 
       placeholder="Enter your registered phone number" 
     />
-    <button onclick="downloadReceipt()">📥 Download Receipt</button>
+    <button id="down" onclick="downloadReceipt()">📥 Download Receipt</button>
   </div>
-  <p id="msg"></p>
 
 
    <style>
@@ -50,41 +55,42 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+    gap: 5px;
     padding: 20px;
-    max-width: 400px;
+    max-width: 450px;
     margin: auto;
-    background-color: #f7f7f7;
+    background-color: #c9cea2;
     border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.8);
   }
 
   #phoneInput {
     width: 100%;
-    padding: 10px;
-    font-size: 16px;
+    padding: 12px;
+    font-size: 20px;
     border: 1px solid #ccc;
     border-radius: 6px;
   }
 
   button {
-    padding: 10px 20px;
-    font-size: 16px;
+    padding: 3px 15px;
+    font-size: 20px;
     background-color: #008cff;
     color: white;
     border: none;
     border-radius: 6px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.1s;
   }
 
   button:hover {
-    background-color: #005bbb;
+    background-color: #00f87c;
+    color: black;
   }
 
   h2 {
     text-align: center;
-    margin-bottom: 5px;
+    margin-bottom: 1px;
   }
 
   #note {
@@ -95,101 +101,192 @@
 
   #msg {
     text-align: center;
-    margin-top: 10px;
+    margin-top: px;
     font-weight: bold;
   }
+
+  .radio-group {
+  display: flex;
+  gap: 40px;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.radio-group label {
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.radio-group input[type="radio"] {
+  transform: scale(1.8);
+  cursor: pointer;
+}
+
+
 </style>
 
 
 
 
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
-  import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-database.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-database.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyCHEWExCVcYm5ZTQlRToVPD6mzFkuuOHsY",
-    authDomain: "participate-322ac.firebaseapp.com",
-    databaseURL: "https://participate-322ac-default-rtdb.firebaseio.com",
-    projectId: "participate-322ac",
-    storageBucket: "participate-322ac.appspot.com",
-    messagingSenderId: "1086204135947",
-    appId: "1:1086204135947:web:9d2a1bdc26d9efc2ced50e",
-    measurementId: "G-CBSQZBPHVH"
-  };
+const tourConfig = {
+  apiKey: "AIzaSyCHEWExCVcYm5ZTQlRToVPD6mzFkuuOHsY",
+  authDomain: "participate-322ac.firebaseapp.com",
+  databaseURL: "https://participate-322ac-default-rtdb.firebaseio.com",
+  projectId: "participate-322ac",
+  storageBucket: "participate-322ac.appspot.com",
+  messagingSenderId: "1086204135947",
+  appId: "1:1086204135947:web:9d2a1bdc26d9efc2ced50e",
+  measurementId: "G-CBSQZBPHVH"
+};
 
-  const app = initializeApp(firebaseConfig);
-  const db = getDatabase(app);
+const tshirtConfig = {
+  apiKey: "AIzaSyB5_LrlzM-okCEOcdUVHUK7brFfCZaADk0",
+  authDomain: "t-shirt-3bee7.firebaseapp.com",
+  databaseURL: "https://t-shirt-3bee7-default-rtdb.firebaseio.com",
+  projectId: "t-shirt-3bee7",
+  storageBucket: "t-shirt-3bee7.appspot.com",
+  messagingSenderId: "537345037025",
+  appId: "1:537345037025:web:293547ec53830e16559da0",
+  measurementId: "G-PD5P7EL7N9"
+};
 
-  window.downloadReceipt = async function () {
-    const phone = document.getElementById("phoneInput").value.trim();
-    const msg = document.getElementById("msg");
+const tourApp = initializeApp(tourConfig, "tourApp");
+const tshirtApp = initializeApp(tshirtConfig, "tshirtApp");
 
-    if (!phone) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Missing Number',
-        text: '⚠️ Please enter your phone number.',
-        timer: 3000,
-        showConfirmButton: false
-      });
-      return;
+const tourDb = getDatabase(tourApp);
+const tshirtDb = getDatabase(tshirtApp);
+
+window.downloadReceipt = async function () {
+  const phone = document.getElementById("phoneInput").value.trim();
+  const msg = document.getElementById("msg");
+  const selectedType = document.querySelector('input[name="receiptType"]:checked');
+
+  if (!phone) {
+    Swal.fire({
+      icon: "warning",
+      title: "Missing Number",
+      text: "⚠️ Please enter your phone number.",
+      timer: 3000,
+      showConfirmButton: false
+    });
+    return;
+  }
+
+  if (!selectedType) {
+    Swal.fire({
+      icon: "warning",
+      title: "Select Receipt Type",
+      text: "⚠️ Please select either Tour Participant or T-Shirt.",
+      timer: 3000,
+      showConfirmButton: false
+    });
+    return;
+  }
+
+  msg.textContent = "Please wait...";
+
+  if (selectedType.value === "tour") {
+    const regRef = ref(tourDb, "registrations");
+
+    onValue(
+      regRef,
+      async (snapshot) => {
+        const allData = snapshot.val();
+        let match = null;
+
+        for (const key in allData) {
+          if (allData[key].phone === phone) {
+            match = allData[key];
+            break;
+          }
+        }
+
+        if (!match) {
+          Swal.fire({
+            icon: "error",
+            title: "No Record Found",
+            text: "❌ No record found for this phone number.",
+            timer: 3000,
+            showConfirmButton: false
+          });
+          msg.textContent = "";
+          return;
+        }
+
+        if (match.status !== "Confirmed") {
+          await Swal.fire({
+            icon: "info",
+            title: "Pending Verification",
+            text: "Please wait for admin confirmation before proceeding.",
+            confirmButtonText: "OK"
+          });
+          msg.textContent = "";
+          return;
+        }
+
+        await generateReceiptImage(match, "tour");
+      },
+      { onlyOnce: true }
+    );
+  } else if (selectedType.value === "tshirt") {
+    const tshirtRef = ref(tshirtDb, "extraTshirtOrders");
+
+    onValue(
+      tshirtRef,
+      async (snapshot) => {
+        let match = null;
+
+        snapshot.forEach((child) => {
+          const data = child.val();
+          if (data.phone === phone) {
+            match = data;
+          }
+        });
+
+        if (!match) {
+          Swal.fire({
+            icon: "error",
+            title: "No Record Found",
+            text: "❌ No T-Shirt order found for this phone number.",
+            timer: 3000,
+            showConfirmButton: false
+          });
+          msg.textContent = "";
+          return;
+        }
+
+        await generateReceiptImage(match, "tshirt");
+      },
+      { onlyOnce: true }
+    );
+  }
+
+  async function generateReceiptImage(match, type) {
+    let container = document.getElementById("receipt-container");
+    if (!container) {
+      container = document.createElement("div");
+      container.id = "receipt-container";
+      container.style.position = "fixed";
+      container.style.left = "-9999px";
+      container.style.top = "0";
+      container.style.width = "600px";
+      container.style.padding = "30px";
+      container.style.fontFamily = "Arial, sans-serif";
+      container.style.background = "#fff";
+      container.style.border = "2px dashed #555";
+      document.body.appendChild(container);
     }
 
-    msg.textContent = "Please wait...";
-
-    const regRef = ref(db, "registrations");
-
-    onValue(regRef, async (snapshot) => {
-      const allData = snapshot.val();
-      let match = null;
-
-      for (const key in allData) {
-        if (allData[key].phone === phone) {
-          match = allData[key];
-          break;
-        }
-      }
-
-      if (!match) {
-        Swal.fire({
-          icon: 'error',
-          title: 'No Record Found',
-          text: '❌ No record found for this phone number.',
-          timer: 3000,
-          showConfirmButton: false
-        });
-        msg.textContent = "";
-        return;
-      }
-
-      if (match.status !== "Confirmed") {
-        await Swal.fire({
-          icon: 'info',
-          title: 'Pending Verification',
-          text: 'Please wait for admin confirmation before proceeding.',
-          confirmButtonText: 'OK'
-        });
-        msg.textContent = "";
-        return;
-      }
-
-      // Create hidden receipt container
-      let container = document.getElementById("receipt-container");
-      if (!container) {
-        container = document.createElement("div");
-        container.id = "receipt-container";
-        container.style.position = "fixed";
-        container.style.left = "-9999px";
-        container.style.top = "0";
-        container.style.width = "600px";
-        container.style.padding = "30px";
-        container.style.fontFamily = "Arial, sans-serif";
-        container.style.background = "#fff";
-        container.style.border = "2px dashed #555";
-        document.body.appendChild(container);
-      }
-
+    if (type === "tour") {
       container.innerHTML = `
         <img src="gallery/brhlLogo.jpeg" alt="Logo" style="display: block; margin: 0 auto 15px auto; max-width: 50%; height: auto;" />
         <h1 style="text-align: center; color: #2c3e50;">🎫 BRHL Tour Receipt</h1>
@@ -207,29 +304,52 @@
         <strong>🕕 Your train seat number will be available 6 hours before departure. Download your receipt to view it.</strong>
         <div style="margin-top: 30px; font-size: 12px; color: #777; text-align: center;">This is a system-generated receipt from BRHL</div>
       `;
+    } else {
+      // T-Shirt receipt format
+      container.innerHTML = `
+        <img src="gallery/brhlLogo.jpeg" alt="Logo" style="display: block; margin: 0 auto 15px auto; max-width: 50%; height: auto;" />
+        <h1 style="text-align: center; color: #2c3e50;">🎫 BRHL T-Shirt Receipt</h1>
+        <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+          <tr><td style="padding: 8px; border-bottom: 1px solid #ddd;"><strong>Name of Participant:</strong></td><td style="padding: 8px; border-bottom: 1px solid #ddd;">${match.name}</td></tr>
+          <tr><td style="padding: 8px; border-bottom: 1px solid #ddd;"><strong>Contact No.:</strong></td><td style="padding: 8px; border-bottom: 1px solid #ddd;">${match.phone}</td></tr>
+          <tr><td style="padding: 8px; border-bottom: 1px solid #ddd;"><strong>Home Station:</strong></td><td style="padding: 8px; border-bottom: 1px solid #ddd;">${match.homeStation || match.boarding || "N/A"}</td></tr>
+          <tr><td style="padding: 8px; border-bottom: 1px solid #ddd;"><strong>T-Shirt Size:</strong></td><td style="padding: 8px; border-bottom: 1px solid #ddd;">${match.tshirtSize}</td></tr>
+          <tr><td style="padding: 8px; border-bottom: 1px solid #ddd;"><strong>Payment Method:</strong></td><td style="padding: 8px; border-bottom: 1px solid #ddd;">${match.paymentMethod}</td></tr>
+          <tr><td style="padding: 8px; border-bottom: 1px solid #ddd;"><strong>Reference:</strong></td><td style="padding: 8px; border-bottom: 1px solid #ddd;">${match.reference}</td></tr>
+          <tr><td style="padding: 8px; border-bottom: 1px solid #ddd;"><strong>Comments:</strong></td><td style="padding: 8px; border-bottom: 1px solid #ddd;">${match.comment || "N/A"}</td></tr>
+          <tr><td style="padding: 8px; border-bottom: 1px solid #ddd;"><strong>Registration Time:</strong></td><td style="padding: 8px; border-bottom: 1px solid #ddd;">${match.timestamp ? new Date(match.timestamp).toLocaleString() : "N/A"}</td></tr>
+        </table>
+        <br>
+        <strong>Thanks for Choosing BRHL. We will contact you later.</strong>
+        <div style="margin-top: 30px; font-size: 12px; color: #777; text-align: center;">This is a system-generated receipt from BRHL</div>
+      `;
+    }
 
-      const canvas = await html2canvas(container, { scale: 2 });
-      const imgData = canvas.toDataURL("image/png");
+    // Generate and download image
+    const canvas = await html2canvas(container, { scale: 2 });
+    const imgData = canvas.toDataURL("image/png");
+    const a = document.createElement("a");
+    a.href = imgData;
+    a.download = `BRHL_Receipt_${match.phone}.png`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
 
-      const a = document.createElement("a");
-      a.href = imgData;
-      a.download = `BRHL_Receipt_${match.phone}.png`;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
+    msg.textContent = "";
+    document.getElementById("phoneInput").value = "";
 
-      msg.textContent = "";
-
-      Swal.fire({
-        icon: 'success',
-        title: 'Welcome to BRHL Tour!',
-        text: 'Your BRHL Tour Receipt image has been downloaded. Safe travels!',
-        confirmButtonText: 'Thank You 💙'
-      });
-    }, {
-      onlyOnce: true
+    Swal.fire({
+      icon: "success",
+      title: type === "tour" ? "Welcome to BRHL Tour!" : "T-Shirt Order Confirmed!",
+      text:
+        type === "tour"
+          ? "Your BRHL Tour Receipt image has been downloaded. Safe travels!"
+          : "Your BRHL T-Shirt Receipt image has been downloaded. Thank you for choosing us!",
+      confirmButtonText: "Thank You 💙"
     });
-  };
+  }
+};
+
 </script>
 
 
