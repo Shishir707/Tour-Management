@@ -37,10 +37,14 @@
   <div class="receipt-container">
     <h2>Download Your Recipt</h2>
     <p id="msg"></p>
-    <div class="radio-group">
-      <label><input type="radio" name="receiptType" value="tshirt" /> T-Shirt</label>
-      <label><input type="radio" name="receiptType" value="tour" /> Tour Participant</label>
+    <div class="combo-group">
+      <select name="receiptType" id="receiptType" style="padding: 6px 12px; font-size: 16px; border-radius: 6px;">
+        <option value="" selected disabled>-- Select Receipt Type --</option>
+        <option value="tshirt">T-Shirt</option>
+        <option value="tour">Tour Participant</option>
+      </select>
     </div>
+
     <input 
       type="number" 
       id="phoneInput" 
@@ -57,9 +61,9 @@
     align-items: center;
     gap: 5px;
     padding: 20px;
-    max-width: 370px;
+    max-width: 450px;
     margin: auto;
-    background-color: #c9cea2;
+    background-color: #adb66e;
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.8);
   }
@@ -168,7 +172,7 @@ const tshirtDb = getDatabase(tshirtApp);
 window.downloadReceipt = async function () {
   const phone = document.getElementById("phoneInput").value.trim();
   const msg = document.getElementById("msg");
-  const selectedType = document.querySelector('input[name="receiptType"]:checked');
+  const selectedType = document.getElementById('receiptType');
 
   if (!phone) {
     Swal.fire({
@@ -181,7 +185,7 @@ window.downloadReceipt = async function () {
     return;
   }
 
-  if (!selectedType) {
+  if (!selectedType.value) {
     Swal.fire({
       icon: "warning",
       title: "Select Receipt Type",
