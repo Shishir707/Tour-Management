@@ -262,6 +262,7 @@ section img:focus {
   padding: 0;
   margin: 0;
   width: 60%;
+  text-align: center;
 }
 
 .contact-list li {
