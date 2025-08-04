@@ -327,9 +327,36 @@
     };
 
     window.showForm = function (type) {
-      document.getElementById("registrationForm").style.display = type === "tour" ? "block" : "none";
-      document.getElementById("tshirt").style.display = type === "tshirt" ? "block" : "none";
-    };
+  if (type === "tour") {
+    // Show alert and hide registration form
+    Swal.fire({
+      icon: 'info',
+      title: '⏰ Registration Closed!',
+      html: `
+        <p style="font-size: 16px; margin-bottom: 10px;">
+          The registration deadline for this tour is now over.
+        </p>
+        <p style="font-size: 15px; margin-bottom: 10px;">
+          Please try again for the next available tour.
+        </p>
+        <p style="font-size: 14px; color: #555; margin-top: 20px;">
+          — BRHL Team
+        </p>
+      `,
+      confirmButtonText: 'Return',
+      confirmButtonColor: '#3085d6',
+    });
+
+    document.getElementById("registrationForm").style.display = "none";
+  } else {
+    // Show registrationForm only if type is 'tour'
+    document.getElementById("registrationForm").style.display = type === "tour" ? "block" : "none";
+  }
+
+  // Show tshirt section only if type is 'tshirt'
+  document.getElementById("tshirt").style.display = type === "tshirt" ? "block" : "none";
+};
+
   </script>
   <script src="script.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
