@@ -49,6 +49,22 @@
   <img src="gallery/reg.png" alt="Registration" />
 
   <h2>Register Now</h2>
+  <div style="text-align: center; background: #ffffff; padding: 30px 40px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+    <h3 style="margin-bottom: 15px; color: #bf07f1; font-family: Arial, sans-serif;">Remaining Time for T-Shirt Order</h3>
+    <div style="display: flex; align-items: center; justify-content: center; gap: 12px;">
+      <!-- Spinner -->
+      <div style="
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #3498db;
+        border-radius: 50%;
+        width: 24px;
+        height: 24px;
+        animation: spin 1s linear infinite;
+      "></div>
+    <div id="countdown" style="font-size: 20px; font-weight: bold; color: #f71b03; background: #bfdfcc; padding: 3px 70px; border-radius: 5px; display: inline-block;">
+      Loading...
+    </div>
+  </div>
   <div class="registration-options">
     <button onclick="showForm('tshirt')" class="option-btn">🎽 Only T-Shirt</button>
     <button onclick="showForm('tour')" class="option-btn">🌄 Participate Tour</button>
@@ -351,6 +367,24 @@
   } else {
     // Show registrationForm only if type is 'tour'
     document.getElementById("registrationForm").style.display = type === "tour" ? "block" : "none";
+  }
+
+  // Get today's date
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = today.getMonth(); // Note: August is 7 (0-based)
+  const date = today.getDate();
+
+  // Check if it's 8 August 2025
+  if (type === "tshirt" && year === 2025 && month === 7 && date === 8) {
+    Swal.fire({
+      icon: 'info',
+      title: '⏰ Time’s Up!',
+      text: `T-Shirt order deadline has ended on 7 August 2025. Today is ${date}-${month+1}-${year}`,
+      confirmButtonText: 'OK'
+    });
+
+    return; // Stop executing anything after this
   }
 
   // Show tshirt section only if type is 'tshirt'
