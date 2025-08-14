@@ -53,15 +53,6 @@
   <h3 style="margin-bottom: 15px; color: #bf07f1;">Remaining Time for T-Shirt Order</h3>
   <div style="display: flex; align-items: center; justify-content: center; gap: 12px;">
 
-    <!-- Spinner -->
-    <div style="
-      border: 4px solid #fdfdfd;
-      border-top: 4px solid #0596f7;
-      border-radius: 50%;
-      width: 30px;
-      height: 30px;
-      animation: spin 1s linear infinite;
-    "></div>
 
     <!-- Countdown text -->
     <div id="countdown" style="
@@ -386,18 +377,20 @@
   // Get today's date
   const today = new Date();
   const year = today.getFullYear();
-  const month = today.getMonth(); // Note: August is 7 (0-based)
+  const month = today.getMonth(); 
   const date = today.getDate();
 
   // Check if it's 8 August 2025
-  if (type === "tshirt" && year === 2025 && month === 7 && date === 8) {
+  const deadline = new Date(2025, 7, 8);
+  const tdy = new Date(year, month, date);
+
+  if (type === "tshirt" && tdy >= deadline) {
     Swal.fire({
       icon: 'info',
       title: '⏰ Time’s Up!',
-      text: `T-Shirt order deadline has ended on 7 August 2025. Today is ${date}-${month+1}-${year}`,
+      text: `T-Shirt order deadline ended on 8 August 2025. Today is ${date}-${month+1}-${year}`,
       confirmButtonText: 'OK'
     });
-
     return; // Stop executing anything after this
   }
 
