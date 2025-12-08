@@ -5,9 +5,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>BRHL Event</title>
-    <link rel="shortcut icon" href="gallery/brhlLogo.jpeg" type="BRHL Logo">
+    <link rel="shortcut icon" href="gallery/brhlLogo.jpeg" type="image/jpeg">
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="new.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Use Firebase compat SDK (v9 style, old namespaced) -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 </head>
 
 <body>
@@ -35,30 +40,25 @@
         <p>Exciting activities, exclusive insights, and fun surprises await – don’t miss out!</p>
 
         <div class="event-btn-container">
-            <!-- See Event button with Swal -->
             <button class="see-event-btn" onclick="showEventAlert()">See Event</button>
-
             <br>
-
-            <!-- See Previous Events button linking to Facebook -->
             <a href="https://www.facebook.com/groups/brhelpline/events" target="_blank" class="see-event-btn">
                 See Our Previous Events
             </a>
         </div>
     </section>
 
-    <section id="event">
+    <section id="upcomingEvent">
         <h1>🎉 Join Our Upcoming Event!</h1>
         <p>Participate in the BRHL special event and enjoy exclusive activities and surprises!</p>
 
         <div class="registration-options">
-            <button onclick="showEventForm('event')" class="option-btn">🌟 Register for Event</button>
+            <button onclick="showEventForm()" class="option-btn">🌟 Register for Event</button>
         </div>
 
         <!-- Event Registration Form -->
-        <div id="eventForm" style="display:none;">
+        <form id="eventForm" style="display:none;">
             <h3>🌟 Event Participation Form</h3>
-
             <label>Name:</label>
             <input type="text" id="eventName" placeholder="Enter Your Name" required>
 
@@ -66,14 +66,14 @@
             <input type="tel" id="eventPhone" placeholder="Enter Phone Number" required>
 
             <label>Boarding Point:</label>
-            <select id="eventType">
+            <select id="eventType" required>
                 <option value="" disabled selected>Select Boarding</option>
-                <option value="statingPoint">Starting Point</option>
-                <option value="middlePoint">Middle Point</option>
+                <option value="Starting Point">Starting Point</option>
+                <option value="Middle Point">Middle Point</option>
             </select>
 
             <label>Payment Method:</label>
-            <select id="eventPaymentMethod">
+            <select id="eventPaymentMethod" required>
                 <option value="" disabled selected>Select Payment Method</option>
                 <option value="Bkash">Bkash</option>
                 <option value="Rocket">Rocket</option>
@@ -82,38 +82,33 @@
                 <option value="Surecash">Sure Cash</option>
                 <option value="Bank">Bank</option>
                 <option value="Cash">Cash</option>
-
             </select>
 
             <label>Transaction ID:</label>
             <input type="text" id="eventRef" placeholder="Enter TrxID here" required>
 
             <label>Collector:</label>
-            <select id="eventCollector">
+            <select id="eventCollector" required>
                 <option value="" disabled selected>Select Your Collector</option>
-                <option value="azizul-islam-shovon"> Azizul Islam Shovon </option>
-                <option value="elias-sheikh">Elias Sheikh</option>
-                <option value="fahim-shahariar-morshed">Shahariar Morshed Fahim</option>
-                <option value="kamruzzaman-sohel">Md. Kamruzzaman Sohel</option>
-                <option value="mahin-ahmed-limon">Mahin Ahmed Limon</option>
-                <option value="monzurul-islam-babul">Monzurul Islam Babul</option>
-                <option value="mir-m-shishir">Mir M Shishir</option>
-                <option value="mrinal-chowan-dhrubo">Mrinal Chowan Dhrubo</option>
-                <option value="nasim-rezaul-masum">Nasim Rezaul Masum</option>
-                <option value="md-fahim-tahmid-rupok">Md Fahim Tahmid Rupok</option>
-                <option value="raihan-adil">Raihan Adil</option>
+                <option value="Azizul Islam Shovon">Azizul Islam Shovon</option>
+                <option value="Elias Sheikh">Elias Sheikh</option>
+                <option value="Fahim Shahariar Morshed">Shahariar Morshed Fahim</option>
+                <option value="Kamruzzaman Sohel">Md. Kamruzzaman Sohel</option>
+                <option value="Mahin Ahmed Limon">Mahin Ahmed Limon</option>
+                <option value="Monzurul Islam Babul">Monzurul Islam Babul</option>
+                <option value="Mir M Shishir">Mir M Shishir</option>
+                <option value="Mrinal Chowan Dhrubo">Mrinal Chowan Dhrubo</option>
+                <option value="Nasim Rezaul Masum">Nasim Rezaul Masum</option>
+                <option value="Md Fahim Tahmid Rupok">Md Fahim Tahmid Rupok</option>
+                <option value="Raihan Adil">Raihan Adil</option>
             </select>
-
 
             <label>Comment or Suggestion:</label>
             <textarea id="eventComment" placeholder="Enter any comment or suggestion" rows="3"></textarea>
 
-            <button type="button" onclick="submitEventForm()">Confirm Registration</button>
-            <p id="eventSubmitMsg"></p>
-        </div>
+            <button type="button" id="submitEventBtn">Confirm Registration</button>
+        </form>
     </section>
-
-
 
     <footer>
         <div class="footer-container">
@@ -122,9 +117,8 @@
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <!-- Main JS -->
     <script src="scripttwo.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
 </html>

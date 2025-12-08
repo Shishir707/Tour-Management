@@ -1,158 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Registration</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BRHL T-Shirt</title>
+
   <link rel="shortcut icon" href="gallery/brhlLogo.jpeg" type="image/jpeg">
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
+
+  <!-- HEADER -->
   <header>
     <h1>
-      <img src="gallery/brhlLogo.jpeg" alt="BRHL Logo" style="height: 40px; vertical-align: middle; margin-right: 10px;">
+      <img src="gallery/brhlLogo.jpeg" alt="BRHL Logo"
+        style="height: 40px; vertical-align: middle; margin-right: 10px;">
       Tour Management System
     </h1>
     <p>Bangladesh Railway Helpline (BRHL)</p>
   </header>
 
+  <!-- NAVIGATION -->
   <nav>
     <ul>
       <li><a href="Index.html">Home</a></li>
-      <li><a href="reg.html">Registration Now</a></li>
+      <li><a href="event.html">Event</a></li>
+      <li><a href="tshirt.html">T-Shirt</a></li>
       <li><a href="download.html">Download Recipt</a></li>
-      <li><a href="dashboard.html">Admin</a></li>
+      <li><a href="dashboard.html">.</a></li>
     </ul>
   </nav>
 
-
-
+  <!-- MAIN SECTION -->
   <section id="home">
     <h1>Tour Registration</h1>
-    <p>Register now for the BRHL 500K Tour or grab only the exclusive BRHL T-shirt — your journey, your choice.</p>
-    <button id="sampleTshirtBtn" class="see-event-btn" onclick="showSampleNotice()">View Sample Details</button>
+    <p>Register now for the BRHL 500K Tour or order the exclusive BRHL T-shirt.</p>
+
+    <!-- SAMPLE VIEW BUTTON -->
+    <button class="see-event-btn" onclick="showSample()">View Sample Details</button>
   </section>
 
-  <div style="width: 90%; margin: 20px auto; text-align: center; background-color: bisque; border-radius: 10px;" id="tshirtSampleDiv">
-  <h3 style="margin-bottom: 20px;">Here Have T Shirt Sample</h3>
-  <div id="tshirtImages" style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
-    <img src="gallery/Final Front.png" alt="T-Shirt Front" style="width: 45%; max-width: 300px; border: 1px solid #ccc; border-radius: 10px;">
-    <img src="gallery/Final Back.png" alt="T-Shirt Back" style="width: 45%; max-width: 300px; border: 1px solid #ccc; border-radius: 10px;">
-  </div>
+  <!-- SAMPLE IMAGES AREA -->
+  <div id="tshirtSampleDiv"
+    style="width: 90%; margin: 20px auto; text-align: center; background-color: bisque; border-radius: 10px; display: none;">
 
-  <br>
-  <button onclick="downloadCombinedImage()" style="padding: 3px 25px; font-size: 12px; background-color: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer;">
-    ⬇ Download Demo
-  </button>
-  </div>
+    <h3 style="margin-bottom: 20px;">BRHL T-Shirt Sample</h3>
 
-  <br><br><hr>
-
-  <img src="gallery/reg.png" alt="Registration" />
-
-  <h2>Register Now</h2>
-  <div style="margin: auto; text-align: center; font-family: Arial, sans-serif; background-color: rgb(255, 255, 255); padding: 10px 20px; border-radius: 8px;">
-  <h3 style="margin-bottom: 15px; color: #bf07f1;">Remaining Time for T-Shirt Order</h3>
-  <div style="display: flex; align-items: center; justify-content: center; gap: 12px;">
-
-
-    <!-- Countdown text -->
-    <div id="countdown" style="
-      font-size: 20px;
-      font-weight: bold;
-      color: #f71b03;
-      background: #c4ead3;
-      padding: 3px 70px;
-      border-radius: 5px;
-      display: inline-block;
-      min-width: 150px;
-    ">
-      Loading...
+    <div id="tshirtImages" style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; padding: 20px;">
+      <img src="gallery/Final Front.png" alt="T-Shirt Front"
+        style="width: 45%; max-width: 300px; border: 1px solid #ccc; border-radius: 10px;">
+      <img src="gallery/Final Back.png" alt="T-Shirt Back"
+        style="width: 45%; max-width: 300px; border: 1px solid #ccc; border-radius: 10px;">
     </div>
 
+    <button onclick="downloadCombinedImage()"
+      style="padding: 6px 25px; font-size: 14px; background-color: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer;">
+      ⬇ Download Sample
+    </button>
   </div>
-  </div>
-  <div class="registration-options">
-    <button onclick="showForm('tshirt')" class="option-btn">🎽 Only T-Shirt</button>
-    <button onclick="showForm('tour')" class="option-btn">🌄 Participate Tour</button>
-  </div>
+
   <hr>
 
-  <!-- Tour Form -->
-  <div id="registrationForm" style="display:none;">
-    <h3>🌄 Tour Participation Form</h3>
-
-    <label>Name:</label>
-    <input type="text" id="name" placeholder="Enter Your Name" required>
-
-    <label>Phone Number:</label>
-    <input type="tel" id="phone" placeholder="Enter Phone Number" required>
-
-    <label>Boarding Point:</label>
-    <select id="boarding">
-      <option value="" disabled selected>Select Boarding Point</option>
-      <option value="Dhaka">Dhaka</option>
-      <option value="Chattogram">Chattogram</option>
-    </select>
-
-    <label>Total Amount (Tk):</label>
-    <input type="number" id="totalAmount" value="0" readonly>
-
-    <label>Due Amount (Tk):</label>
-    <input type="number" id="dueAmount" placeholder="Enter Amount(If due)" value="0">
-
-    <label>Total Paid (Tk):</label>
-    <input type="number" id="finalAmount" value="0" readonly>
-
-    <label>T-Shirt Size:</label>
-    <select id="tshirtSize">
-      <option value="" disabled selected>Select Size</option>
-      <option value="S">S</option>
-      <option value="M">M</option>
-      <option value="L">L</option>
-      <option value="XL">XL</option>
-      <option value="XXL">XXL</option>
-      <option value="XXXL">XXXL</option>
-    </select>
-
-    <label>Payment Method:</label>
-    <select id="paymentMethod">
-      <option value="" disabled selected>Select Payment Method</option>
-      <option value="Bkash">Bkash</option>
-      <option value="Rocket">Rocket</option>
-      <option value="Nagad">Nagad</option>
-      <option value="Cash">Cash</option>
-    </select>
-
-    <label>Enter Reference:</label>
-    <input type="text" id="ref" placeholder="Ref / Last 4 digit:2209" required>
-
-    <label>Fund Collector:</label>
-    <input type="text" id="collector" placeholder="Enter Collector Name" required>
-
-    <label>Comment or Suggestion:</label>
-    <textarea id="comment" placeholder="Enter any comment or suggestion" rows="3"></textarea>
-
-    <button type="button" onclick="submitForm()">Confirm</button>
-    <p id="submitMsg"></p>
+  <!-- REGISTER NOW IMAGE -->
+  <div style="text-align: center;">
+    <img src="gallery/reg.png" alt="Registration" style="width: 95%; max-width: 450px;">
   </div>
 
-  <!-- T-Shirt Form -->
-  <div id="tshirt" style="display:none;">
-    <form id="extraTshirtForm" onsubmit="submitExtraTshirtForm(event)">
-      <h2>🎽 T-Shirt Order Form</h2>
+  <h2 style="text-align: center;">Register Now</h2>
 
-      <label for="name2">Name:</label>
-      <input type="text" id="name2" placeholder="Enter Your Name" required />
+  <!-- T-SHIRT BUTTON -->
+  <div class="registration-options">
+    <button class="option-btn" onclick="showTshirtForm()">🎽 Register for T-Shirt</button>
+  </div>
 
-      <label for="phone2">Phone:</label>
-      <input type="tel" id="phone2" placeholder="Enter Phone Number" required />
+  <!-- T-SHIRT ORDER FORM -->
+  <section id="event">
+    <div id="tshirtForm" style="display:none;">
 
-      <label for="homeStation">Home Station:</label>
-      <input type="text" id="homeStation" placeholder="Enter Your Home Station" required />
+      <h3>🎽 T-Shirt Order Form</h3>
 
-      <label for="tshirtSize2">T-Shirt Size:</label>
-      <select id="tshirtSize2" required>
+      <label>Name:</label>
+      <input type="text" id="tsName" placeholder="Enter Your Name">
+
+      <label>Phone Number:</label>
+      <input type="tel" id="tsPhone" placeholder="Enter Phone Number">
+
+      <label>Home Station:</label>
+      <input type="text" id="tsStation" placeholder="Enter Your Home Station">
+
+      <label>T-Shirt Size:</label>
+      <select id="tsSize">
         <option value="" disabled selected>Select Size</option>
         <option value="S">S</option>
         <option value="M">M</option>
@@ -162,43 +101,44 @@
         <option value="XXXL">XXXL</option>
       </select>
 
-      <label for="paymentMethod2">Payment Method:</label>
-      <select id="paymentMethod2" required>
-        <option value="" disabled selected>Select Payment Method</option>
+      <label>Payment Method:</label>
+      <select id="tsPayment">
+        <option value="" disabled selected>Select Payment</option>
         <option value="Bkash">Bkash</option>
         <option value="Rocket">Rocket</option>
         <option value="Nagad">Nagad</option>
         <option value="Cash">Cash</option>
       </select>
 
-      <label for="reference2">Reference:</label>
-      <input type="text" id="reference2" placeholder="Ref:Masum or Last 4 digit:0099" required />
+      <label>Reference ID:</label>
+      <input type="text" id="tsRef" placeholder="Enter TrxID / Reference">
 
-      <label for="collector2">Collector:</label>
-      <input type="text" id="collector2" placeholder="Enter Collector Name" required />
+      <label>Collector:</label>
+      <select id="tsCollector">
+        <option value="" disabled selected>Select Collector</option>
+        <option value="azizul-islam-shovon">Azizul Islam Shovon</option>
+        <option value="elias-sheikh">Elias Sheikh</option>
+        <option value="fahim-shahariar-morshed">Shahariar Morshed Fahim</option>
+        <option value="kamruzzaman-sohel">Md. Kamruzzaman Sohel</option>
+        <option value="mahin-ahmed-limon">Mahin Ahmed Limon</option>
+        <option value="monzurul-islam-babul">Monzurul Islam Babul</option>
+        <option value="mir-m-shishir">Mir M Shishir</option>
+        <option value="mrinal-chowan-dhrubo">Mrinal Chowan Dhrubo</option>
+        <option value="nasim-rezaul-masum">Nasim Rezaul Masum</option>
+        <option value="md-fahim-tahmid-rupok">Md Fahim Tahmid Rupok</option>
+        <option value="raihan-adil">Raihan Adil</option>
+      </select>
 
-      <h3 style="color: red; opacity: 0.6;">Extra T-Shirt (Optional)</h3>
+      <label>Comment:</label>
+      <textarea id="tsComment" placeholder="Write something..." rows="3"></textarea>
 
-      <label for="extraT1">Extra T-shirt 1:</label>
-      <select id="extraT1"><option value="" disabled selected>Select Size for XTR-1</option><option value="S">S</option><option value="M">M</option><option value="L">L</option><option value="XL">XL</option><option value="XXL">XXL</option><option value="XXXL">XXXL</option></select>
+      <button onclick="submitTshirtForm()">Confirm Order</button>
 
-      <label for="extraT2">Extra T-shirt 2:</label>
-      <select id="extraT2"><option value="" disabled selected>Select Size for XTR-2<option value="S">S</option><option value="M">M</option><option value="L">L</option><option value="XL">XL</option><option value="XXL">XXL</option><option value="XXXL">XXXL</option></select>
+      <p id="tsSubmitMsg"></p>
+    </div>
+  </section>
 
-      <label for="extraT3">Extra T-shirt 3:</label>
-      <select id="extraT3"><option value="" disabled selected>Select Size for XTR-3<option value="S">S</option><option value="M">M</option><option value="L">L</option><option value="XL">XL</option><option value="XXL">XXL</option><option value="XXXL">XXXL</option></select>
-
-      <label for="extraT4">Extra T-shirt 4:</label>
-      <select id="extraT4"><option value="" disabled selected>Select Size for XTR-4<option value="S">S</option><option value="M">M</option><option value="L">L</option><option value="XL">XL</option><option value="XXL">XXL</option><option value="XXXL">XXXL</option></select>
-
-      <label for="comment2">Comment:</label>
-      <textarea id="comment2" placeholder="Enter any comment or suggestion" rows="3"></textarea>
-
-      <button type="submit">Confirm Order</button>
-      <p id="submitMsg2"></p>
-    </form>
-  </div>
-
+  <!-- FOOTER -->
   <footer>
     <div class="footer-container">
       <p>© 2025 BRHL | All Rights Reserved</p>
@@ -206,203 +146,11 @@
     </div>
   </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
-    import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-database.js";
-    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-analytics.js";
-
-    const tourApp = initializeApp({
-      apiKey: "AIzaSyCHEWExCVcYm5ZTQlRToVPD6mzFkuuOHsY",
-      authDomain: "participate-322ac.firebaseapp.com",
-      databaseURL: "https://participate-322ac-default-rtdb.firebaseio.com",
-      projectId: "participate-322ac",
-      storageBucket: "participate-322ac.appspot.com",
-      messagingSenderId: "1086204135947",
-      appId: "1:1086204135947:web:9d2a1bdc26d9efc2ced50e",
-      measurementId: "G-CBSQZBPHVH"
-    }, "tour");
-
-    const tshirtApp = initializeApp({
-      apiKey: "AIzaSyB5_LrlzM-okCEOcdUVHUK7brFfCZaADk0",
-      authDomain: "t-shirt-3bee7.firebaseapp.com",
-      databaseURL: "https://t-shirt-3bee7-default-rtdb.firebaseio.com",
-      projectId: "t-shirt-3bee7",
-      storageBucket: "t-shirt-3bee7.appspot.com",
-      messagingSenderId: "537345037025",
-      appId: "1:537345037025:web:293547ec53830e16559da0",
-      measurementId: "G-PD5P7EL7N9"
-    }, "tshirt");
-
-    const tourDb = getDatabase(tourApp);
-    const tshirtDb = getDatabase(tshirtApp);
-    getAnalytics(tourApp);
-    getAnalytics(tshirtApp);
-
-    const boardingEl = document.getElementById("boarding");
-    const totalAmountEl = document.getElementById("totalAmount");
-    const dueAmountEl = document.getElementById("dueAmount");
-    const finalAmountEl = document.getElementById("finalAmount");
-
-    boardingEl.addEventListener("change", () => {
-      totalAmountEl.value = boardingEl.value === "Dhaka" ? 3749 : boardingEl.value === "Chattogram" ? 2899 : 0;
-      calculatePaidAmount();
-    });
-
-    dueAmountEl.addEventListener("input", calculatePaidAmount);
-
-    function calculatePaidAmount() {
-      const total = parseInt(totalAmountEl.value) || 0;
-      const due = parseInt(dueAmountEl.value) || 0;
-      finalAmountEl.value = Math.max(0, total - due);
-    }
-
-  window.submitForm = function () {
-  const name = document.getElementById("name").value.trim();
-  const phone = document.getElementById("phone").value.trim();
-  const boarding = boardingEl.value;
-  const dueAmount = dueAmountEl.value.trim();
-  const finalAmount = finalAmountEl.value.trim();
-  const tshirtSize = document.getElementById("tshirtSize").value;
-  const paymentMethod = document.getElementById("paymentMethod").value;
-  const refCode = document.getElementById("ref").value.trim();
-  const collector = document.getElementById("collector").value.trim();
-  const comment = document.getElementById("comment").value.trim();
-  const timestamp = new Date().toISOString();
-
-  if (!name || !phone || !boarding || !paymentMethod || !refCode || !tshirtSize ||!collector) {
-    Swal.fire("Error", "Please fill all required fields!", "error");
-    return;
-  }
-
-  if (!/^\d{10,}$/.test(phone)) {
-    Swal.fire("Invalid Phone", "Phone number should be at least 10 digits.", "warning");
-    return;
-  }
-  document.getElementById("submitMsg").textContent = "Submitting...";
-
-  const data = {
-    name,
-    phone,
-    boarding,
-    dueAmount,
-    paidAmount: finalAmount,
-    tshirtSize,
-    paymentMethod,
-    reference: refCode,
-    collector,
-    comment,
-    timestamp
-  };
-
-  push(ref(tourDb, "registrations/"), data)
-  .then(() => {
-    document.getElementById("submitMsg").textContent = "";
-    Swal.fire({
-      icon: 'success',
-      title: '✅ Registration Successful!',
-      html: '<p style="font-weight:bold; margin-top:10px;">Welcome to BRHL Tour</p>',
-      showConfirmButton: false,
-      timer: 3000
-    });
-  })
-  .catch((error) => {
-    document.getElementById("submitMsg").textContent = "";
-    // ONLY show failure here
-    console.error(error);
-    Swal.fire("Failed", "Submission failed. Try again later.", "error");
-  });
- }
-
-
-    window.submitExtraTshirtForm = function (e) {
-      e.preventDefault();
-      const name = document.getElementById("name2").value.trim();
-      if (!name) return alert("Name is required.");
-
-      push(ref(tshirtDb, "extraTshirtOrders"), {
-        name,
-        phone: document.getElementById("phone2").value,
-        homeStation: document.getElementById("homeStation").value,
-        tshirtSize: document.getElementById("tshirtSize2").value,
-        paymentMethod: document.getElementById("paymentMethod2").value,
-        reference: document.getElementById("reference2").value,
-        collector: document.getElementById("collector2").value,
-        extra1: document.getElementById("extraT1").value,
-        extra2: document.getElementById("extraT2").value,
-        extra3: document.getElementById("extraT3").value,
-        extra4: document.getElementById("extraT4").value,
-        comment: document.getElementById("comment2").value,
-        timestamp: new Date().toISOString()
-      }).then(() => {
-      Swal.fire({
-        icon: 'success',
-        title: 'Order Confirmed',
-        html: '<b>Thanks for choosing us.<br>We will contact you later.</b>',
-        confirmButtonText: 'Thank You'
-      });
-      document.getElementById("extraTshirtForm").reset();
-      }).catch(err => {
-        console.error(err);
-        Swal.fire("Error", "Error submitting order.", "error");
-      });
-
-    };
-
-    window.showForm = function (type) {
-  if (type === "tour") {
-    // Show alert and hide registration form
-    Swal.fire({
-      icon: 'info',
-      title: '⏰ Registration Closed!',
-      html: `
-        <p style="font-size: 16px; margin-bottom: 10px;">
-          The registration deadline for this tour is now over.
-        </p>
-        <p style="font-size: 15px; margin-bottom: 10px;">
-          Please try again for the next available tour.
-        </p>
-        <p style="font-size: 14px; color: #555; margin-top: 20px;">
-          — BRHL Team
-        </p>
-      `,
-      confirmButtonText: 'Return',
-      confirmButtonColor: '#3085d6',
-    });
-
-    document.getElementById("registrationForm").style.display = "none";
-  } else {
-    // Show registrationForm only if type is 'tour'
-    document.getElementById("registrationForm").style.display = type === "tour" ? "block" : "none";
-  }
-
-  // Get today's date
-  const today = new Date();
-  const year = today.getFullYear();
-  const month = today.getMonth(); 
-  const date = today.getDate();
-
-  // Check if it's 8 August 2025
-  const deadline = new Date(2025, 7, 8);
-  const tdy = new Date(year, month, date);
-
-  if (type === "tshirt" && tdy >= deadline) {
-    Swal.fire({
-      icon: 'info',
-      title: '⏰ Time’s Up!',
-      text: `T-Shirt order deadline ended on 8 August 2025. Today is ${date}-${month+1}-${year}`,
-      confirmButtonText: 'OK'
-    });
-    return; // Stop executing anything after this
-  }
-
-  // Show tshirt section only if type is 'tshirt'
-  document.getElementById("tshirt").style.display = type === "tshirt" ? "block" : "none";
-};
-
-  </script>
-  <script src="script.js"></script>
+  <!-- SCRIPTS -->
+  <script src="scripttwo.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
 </body>
+
 </html>
