@@ -88,3 +88,13 @@ if (tsSubmitBtn) {
     });
 }
 
+// Download Sample Image
+
+function downloadImage() {
+    const link = document.createElement('a');
+    link.href = 'gallery/upcome.jpg';   // image path
+    link.download = 'upcome.jpg';       // download filename
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
