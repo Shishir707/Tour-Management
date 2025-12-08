@@ -79,6 +79,7 @@
   <section id="event">
     <div id="tshirtForm" style="display:none;">
 
+
       <h3>🎽 T-Shirt Order Form</h3>
 
       <label>Name:</label>
@@ -87,8 +88,8 @@
       <label>Phone Number:</label>
       <input type="tel" id="tsPhone" placeholder="Enter Phone Number">
 
-      <label>Home Station:</label>
-      <input type="text" id="tsStation" placeholder="Enter Your Home Station">
+      <label>Home Station(In Bangla):</label>
+      <input type="text" id="tsStation" placeholder="Write Home Station Name Carefully">
 
       <label>T-Shirt Size:</label>
       <select id="tsSize">
@@ -110,29 +111,29 @@
         <option value="Cash">Cash</option>
       </select>
 
-      <label>Reference ID:</label>
+      <label>Transaction ID:</label>
       <input type="text" id="tsRef" placeholder="Enter TrxID / Reference">
 
       <label>Collector:</label>
       <select id="tsCollector">
         <option value="" disabled selected>Select Collector</option>
-        <option value="azizul-islam-shovon">Azizul Islam Shovon</option>
-        <option value="elias-sheikh">Elias Sheikh</option>
-        <option value="fahim-shahariar-morshed">Shahariar Morshed Fahim</option>
-        <option value="kamruzzaman-sohel">Md. Kamruzzaman Sohel</option>
-        <option value="mahin-ahmed-limon">Mahin Ahmed Limon</option>
-        <option value="monzurul-islam-babul">Monzurul Islam Babul</option>
-        <option value="mir-m-shishir">Mir M Shishir</option>
-        <option value="mrinal-chowan-dhrubo">Mrinal Chowan Dhrubo</option>
-        <option value="nasim-rezaul-masum">Nasim Rezaul Masum</option>
-        <option value="md-fahim-tahmid-rupok">Md Fahim Tahmid Rupok</option>
-        <option value="raihan-adil">Raihan Adil</option>
+        <option value="Azizul Islam Shovon">Azizul Islam Shovon</option>
+        <option value="Elias Sheikh">Elias Sheikh</option>
+        <option value="Shahariar Morshed Fahim">Shahariar Morshed Fahim</option>
+        <option value="Md. Kamruzzaman Sohel">Md. Kamruzzaman Sohel</option>
+        <option value="Mahin Ahmed Limon">Mahin Ahmed Limon</option>
+        <option value="Monzurul Islam Babul">Monzurul Islam Babul</option>
+        <option value="Mir M Shishir">Mir M Shishir</option>
+        <option value="mMrinal Chowan Dhrubo">Mrinal Chowan Dhrubo</option>
+        <option value="Nasim Rezaul Masum">Nasim Rezaul Masum</option>
+        <option value="Md Fahim Tahmid Rupok">Md Fahim Tahmid Rupok</option>
+        <option value="Raihan Adil">Raihan Adil</option>
       </select>
 
       <label>Comment:</label>
       <textarea id="tsComment" placeholder="Write something..." rows="3"></textarea>
 
-      <button onclick="submitTshirtForm()">Confirm Order</button>
+      <button type="button" id="tsSubmitBtn">Confirm Order</button>
 
       <p id="tsSubmitMsg"></p>
     </div>
@@ -147,9 +148,11 @@
   </footer>
 
   <!-- SCRIPTS -->
-  <script src="scripttwo.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="tshirt.js"></script>
+
 
 </body>
 
