@@ -4,8 +4,8 @@ function openGroup() {
 
 // Dynamic member count
 let display = document.getElementById("memberCount");
-if(display){
-  let target = 544800; 
+if (display) {
+  let target = 544800;
   let count = 0;
 
   function formatK(num) {
@@ -35,9 +35,9 @@ function showEventAlert() {
 }
 
 function showEventForm() {
-    const form = document.getElementById("eventForm"); // ✅ select the form
-    form.style.display = "block";
-    form.scrollIntoView({ behavior: "smooth" });
+  const form = document.getElementById("eventForm"); // ✅ select the form
+  form.style.display = "block";
+  form.scrollIntoView({ behavior: "smooth" });
 }
 
 
@@ -70,6 +70,7 @@ submitBtn.addEventListener("click", () => {
   const trx = document.getElementById("eventRef").value.trim();
   const collector = document.getElementById("eventCollector").value;
   const comment = document.getElementById("eventComment").value.trim();
+  const tshirt = document.getElementById("evSize").value;
   const status = "Pending";
 
   if (!name || !phone || !boarding || !payment || !trx || !collector) {
@@ -83,24 +84,24 @@ submitBtn.addEventListener("click", () => {
   }
 
   database.ref("eventRegistrations").push({
-    status , name, phone, boardingPoint: boarding,
-    paymentMethod: payment, transactionID: trx,
+    status, name, phone, boardingPoint: boarding,
+    paymentMethod: payment, transactionID: trx, tshirtSize: tshirt,
     collector, comment, timestamp: new Date().toISOString()
   })
-  .then(() => {
-    Swal.fire({
-      icon: 'success',
-      title: 'Registration Confirmed!',
-      text: 'Your registration has been saved.',
-      confirmButtonColor: "#008000"
-    });
-    document.getElementById("eventForm").reset();
-  })
-  .catch(err => Swal.fire({
-    icon: 'error',
-    title: 'Error!',
-    text: 'Something went wrong: ' + err,
-    confirmButtonColor: "#d33"
-  }));
+    .then(() => {
+      Swal.fire({
+        icon: 'success',
+        title: 'Registration Confirmed!',
+        text: 'Your registration has been saved.',
+        confirmButtonColor: "#008000"
+      });
+      document.getElementById("eventForm").reset();
+    })
+    .catch(err => Swal.fire({
+      icon: 'error',
+      title: 'Error!',
+      text: 'Something went wrong: ' + err,
+      confirmButtonColor: "#d33"
+    }));
 });
 
