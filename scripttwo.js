@@ -104,14 +104,3 @@ submitBtn.addEventListener("click", () => {
   }));
 });
 
-// T-Shirt Order Form Submission
-
-function showTshirtForm() {
-    const form = document.getElementById("tshirtForm");
-    if (form.style.display === "none" || form.style.display === "") {
-        form.style.display = "block"; // Show the form
-        form.scrollIntoView({ behavior: "smooth" }); // Scroll to it smoothly
-    } else {
-        form.style.display = "none"; // Hide the form if already visible
-    }
-}
