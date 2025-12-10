@@ -1,6 +1,6 @@
 # 🧳 Tour Management System
 
-**Live Site:** [https://managetour.netlify.app](https://managetour.netlify.app)
+**Live Site:** [https://brhl.netlify.app](https://managetour.netlify.app)
 
 ---
 
