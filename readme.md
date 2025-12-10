@@ -32,7 +32,7 @@ Tour hosts can easily manage and verify participants' information in a single in
 
 ## 🚀 How to Use
 
-1. Open the live link: [managetour.netlify.app](https://managetour.netlify.app)
+1. Open the live link: [brhl.netlify.app](https://managetour.netlify.app)
 2. Browse the event info.
 3. Fill out the registration form.
 4. Download your receipt instantly.
