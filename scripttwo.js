@@ -5,7 +5,7 @@ function openGroup() {
 // Dynamic member count
 let display = document.getElementById("memberCount");
 if (display) {
-  let target = 544800;
+  let target = 559100;
   let count = 0;
 
   function formatK(num) {
