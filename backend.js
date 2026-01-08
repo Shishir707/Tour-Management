@@ -92,8 +92,8 @@ if (tsSubmitBtn) {
 
 function downloadImage() {
     const link = document.createElement('a');
-    link.href = 'gallery/upcome.jpg';   // image path
-    link.download = 'upcome.jpg';       // download filename
+    link.href = 'gallery/demo.jpeg';   // image path
+    link.download = 'BRHL_Demo-Tshirt.jpeg';       // download filename
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

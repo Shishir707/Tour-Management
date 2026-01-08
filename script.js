@@ -35,7 +35,7 @@ function downloadCombinedImage() {
 
   html2canvas(element).then(canvas => {
     const link = document.createElement('a');
-    link.download = 'Tshirt_Sample.png';
+    link.download = 'gallery/demo.png';
     link.href = canvas.toDataURL();
     link.click();
   });
