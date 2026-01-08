@@ -975,3 +975,15 @@ h3 {
     transform: rotate(360deg);
   }
 }
+
+
+#picture{
+  display: flex;
+  margin: 0 auto;
+}
+
+.image-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
